@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en" class="h-100">
+    <head>
+        {% load static %}
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+        <meta name="generator" content="Hugo 0.88.1">
+        <title>Jurgmeister Cocktails</title>
+
+        <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/cover/">
+
+        
+
+        <!-- Bootstrap core CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+         <!-- Bootstrap Icons -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">  
+        
+        <!-- Favicons -->
+        <link rel="apple-touch-icon" href="/docs/5.1/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+        <link rel="icon" href="/docs/5.1/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+        <link rel="icon" href="/docs/5.1/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+        <link rel="manifest" href="/docs/5.1/assets/img/favicons/manifest.json">
+        <link rel="mask-icon" href="/docs/5.1/assets/img/favicons/safari-pinned-tab.svg" color="#7952b3">
+        <link rel="icon" href="/docs/5.1/assets/img/favicons/favicon.ico">
+        <meta name="theme-color" content="#7952b3">
+
+
+        <style>
+        .footera {
+            text-decoration: none;
+            color:rgb(255, 255, 255)
+        }
+
+        .footera:link, a:visited {
+            color: rgb(255, 255, 255);
+        }
+        
+        .footera:hover {
+            color: rgb(255, 255, 255);
+        }
+
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+            }
+        }
+        
+        .navbarlogo {
+            max-height:75px;
+            max-width: 75px;
+            padding-inline: 10px;
+        }
+        </style>
+        <title>{% block head_title %}{% endblock %}</title>
+        {% block extra_head %}
+        {% endblock %}
+    </head>
+    {% block body %}
+    <body class="cover-container d-flex h-100 w-100 text-center text-white bg-dark p-0 mx-auto flex-column">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-black">
+      <div class="container-fluid">
+      <strong>Account Menu:</strong>
+        {% if user.is_authenticated %}
+        <a href="{% url 'account_email' %}">Change E-mail</a>
+        <a href="{% url 'account_logout' %}">Sign Out</a>
+        {% else %}
+        <a href="{% url 'account_login' %}">Sign In</a>
+        <a href="{% url 'account_signup' %}">Sign Up</a>
+        {% endif %}
+      </div>
+    </nav>
+    {% block content %}
+    {% endblock %}
+    {% endblock %}
+    {% block extra_body %}
+    {% endblock %}
+    <footer class="mt-auto text-white">
+      <p class="mb-1 text-center">&copy; <a class="footera" target="_blank" href="http://www.test2impress.be">Test2Impress.be</a> {% now "Y" %}</p>
+  </footer>
+  
+  
+  <!-- JavaScript Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+  crossorigin="anonymous"></script>
+  </body>
+</html>

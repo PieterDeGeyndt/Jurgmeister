@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block content %}
+<!doctype html>
+<html lang="en">
+
+<head>
+  {% load static %}
+  <style>
+    .backgroundcentertext {
+        background-color: rgba(255, 255, 255, 0.651);
+        align-self: center;
+    }
+
+    .backgroundcards {
+          background-color: rgb(238, 238, 238);
+    }
+
+    a {
+            text-decoration: none;
+            color:rgb(0, 0, 0)
+        }
+
+    a:link, a:visited {
+            color: rgb(0, 0, 0);
+        }
+        
+    a:hover {
+            color: rgb(0, 0, 0);
+        }
+
+    .cardimage {
+        height:45vh;
+        object-fit:cover;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="bg-dark">
+    <section class="py-3 text-white text-center container">
+      <div class="row py-lg-5">
+        <div class="col-lg-6 col-md-8 mx-auto">
+          <h1 class="fw-light">What do we offer?</h1><br/>
+          <p class="lead">At <b>Jurgmeister Cocktails</b> we offer a lot of different services. Have a look
+            below to get more information! <br/>
+          <p>
+            <a href="mailto:pieter@test2impress.be" class="btn btn-primary my-2">E-mail us!</a> 
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <div class="album py-5 backgroundcentertext">
+      <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+          {% for about in abouts.all %}
+          <div class="col">
+            <a class="card backgroundcards shadow h-100" href="{% url 'aboutdetail' about.id %}">
+              <img class="cardimage" src="{{ about.image.url }}"><title>Placeholder</title></img>
+              <div class="card-body">
+                <h2 class="card-title"> {{about.title}}</h2>
+                <p class="card-text">{{ about.body }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                </div>
+              </div>
+            </a>
+          </div>
+          {% endfor %}
+  </main>
+  <!-- JavaScript Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+</body>
+</html>
+{% endblock %}
