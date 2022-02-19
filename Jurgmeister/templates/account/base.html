@@ -28,14 +28,33 @@
         <link rel="icon" href="/docs/5.1/assets/img/favicons/favicon.ico">
         <meta name="theme-color" content="#7952b3">
 
-
         <style>
+        
+        /*Colors*/
+        .bisque {
+            color:bisque;
+        }
+
+        a {
+            text-decoration: none;
+            color:bisque;
+        }
+
+        a:link, a:visited {
+            color: bisque;
+        }
+        
+        a:hover {
+            color: rgb(231, 177, 76);
+        }
+
+        /* Footer */
         .footera {
             text-decoration: none;
             color:rgb(255, 255, 255)
         }
 
-        .footera:link, a:visited {
+        .footera:link {
             color: rgb(255, 255, 255);
         }
         
@@ -43,6 +62,11 @@
             color: rgb(255, 255, 255);
         }
 
+        .footera:visited {
+            color: rgb(255, 255, 255);
+        }
+
+        /* Bootstrap */
         .bd-placeholder-img {
             font-size: 1.125rem;
             text-anchor: middle;
@@ -57,43 +81,108 @@
             }
         }
         
+        /* Jurgmeister logo linksboven */
         .navbarlogo {
             max-height:75px;
             max-width: 75px;
             padding-inline: 10px;
         }
+
+        /*Jurgmeister company name fonts*/
+        @font-face{
+            font-family:'myGantonFont';
+            src:url("/static/fonts/Ganton.otf");
+        }
+
+        @font-face{
+            font-family:'myPresidenteFont';
+            src:url("/static/fonts/Presidente.ttf");
+        }
+
+        /*Jurgmeister Cocktails in navbar*/
+        .jurgmeister {
+            font-family: 'myGantonFont';
+            font-size: 40px;
+            position:relative;
+            text-align:center;
+        }
+
+        .cocktails {
+            font-family: 'myPresidenteFont';
+            font-size: 40px;
+            position: absolute;
+            left:150px;
+            top: 40px;
+            color:bisque;
+        }
+
+        /*Voor Jurgmeister Cocktails logo center page*/
+        .ganton {
+            font-family: 'myGantonFont';
+            font-size: 20px;
+        }
+
+        .presidente {
+            font-family: 'myPresidenteFont';
+        }
+
+        /*Kleur van active link in navbar menu*/
+        #navbarNavAltMarkup > .navbar-nav > .active {
+            color:bisque;
+        }
+
         </style>
-        <title>{% block head_title %}{% endblock %}</title>
-        {% block extra_head %}
-        {% endblock %}
     </head>
-    {% block body %}
     <body class="cover-container d-flex h-100 w-100 text-center text-white bg-dark p-0 mx-auto flex-column">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-black">
-      <div class="container-fluid">
-      <strong>Account Menu:</strong>
-        {% if user.is_authenticated %}
-        <a href="{% url 'account_email' %}">Change E-mail</a>
-        <a href="{% url 'account_logout' %}">Sign Out</a>
-        {% else %}
-        <a href="{% url 'account_login' %}">Sign In</a>
-        <a href="{% url 'account_signup' %}">Sign Up</a>
-        {% endif %}
-      </div>
-    </nav>
-    {% block content %}
-    {% endblock %}
-    {% endblock %}
-    {% block extra_body %}
-    {% endblock %}
-    <footer class="mt-auto text-white">
-      <p class="mb-1 text-center">&copy; <a class="footera" target="_blank" href="http://www.test2impress.be">Test2Impress.be</a> {% now "Y" %}</p>
-  </footer>
-  
-  
-  <!-- JavaScript Bundle with Popper -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-  integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-  crossorigin="anonymous"></script>
-  </body>
-</html>
+        {% url 'home' as home_url %}
+        {% url 'allservices' as allservices_url %}
+        {% url 'allcocktails' as allcocktails_url %}
+        {% url 'instagram' as instagram_url %}
+        {% url 'yourcart' as yourcart_url %}
+        <header class="mb-auto mt-0">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-black">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="{% url 'home'%}"><img class="navbarlogo"
+                            src="{% static 'Logo.jpg'%}"><span class="jurgmeister">Jurgmeister</span><span
+                            class="cocktails">Cocktails</span></a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                        <div class="navbar-nav ms-auto">
+                            <a class="ganton nav-link {% if request.path == allservices_url %} active {%endif%}"
+                                href="{% url 'allservices'%}">Services</a>
+                            <a class="ganton nav-link {% if request.path == allcocktails_url %} active {%endif%}"
+                                href="{% url 'allcocktails'%}">Cocktails</a>
+                            <a class="ganton nav-link {% if request.path == instagram_url %} active {%endif%}"
+                                href="{% url 'instagram'%}"><i class="bi bi-instagram"></i></a>
+                            <a class="ganton nav-link" target="_blank"
+                                href="https://www.facebook.com/profile.php?id=100069179911878"><i
+                                    class="bi bi-facebook"></i></a>
+                            {% if request.user.is_authenticated %}<a class="ganton nav-link"
+                                href="{% url 'account_logout' %}">Logout</a>{% else %}<a class="ganton nav-link"
+                                href="{% url 'account_login' %}">Login</a>{% endif %}
+                            {% if request.user.is_authenticated %}<a
+                                class="ps-5 nav-link {% if request.path == yourcart_url %} active {%endif%}"
+                                href="{% url 'yourcart'%}"><i class="bi bi-cart"></i></a>{% endif %}
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        {% block content %}
+        {% endblock %}
+        <footer class="mt-auto text-white">
+            <p class="mb-1 text-center">&copy; <a class="footera" target="_blank"
+                    href="http://www.test2impress.be">Test2Impress.be</a> - {% now "Y" %}</p>
+        </footer>
+    
+        <!-- JavaScript Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"></script>
+    </body>
+    
+    </html>

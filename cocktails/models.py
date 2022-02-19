@@ -8,13 +8,13 @@ CATEGORY_CHOICES=(
 
 class Cocktails(models.Model):
     title = models.CharField(max_length=255)
-    pubdate = models.DateTimeField()
+    pubdate = models.DateTimeField(auto_now_add=True)
     body = models.TextField()
     image = models.ImageField(upload_to='cocktails/')
-    garnish = models.TextField(default="garnishes")
-    taste = models.TextField(default="sweetsour")
-    price = models.FloatField()
-    category = models.CharField(choices=CATEGORY_CHOICES, max_length=1)
+    garnish = models.TextField(blank=True)
+    taste = models.TextField(blank=True)
+    price = models.FloatField(default=10.00)
+    category = models.CharField(default="C",choices=CATEGORY_CHOICES, max_length=1)
 
     def __str__(self):
         return self.title

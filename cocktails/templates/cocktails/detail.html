@@ -105,13 +105,7 @@
 </head>
 <body>
     <header>
-        {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}" role="alert">
-            {{ message }}
-        </div>
-        {% endfor %}
-        {% endif %}
+        
     </header>
     <div class="crossfade">
         <figure></figure>
@@ -127,8 +121,11 @@
             <p class="lead text-left p-1">Garnish: {{cocktail.garnish}}</p>
             <p class="lead text-left p-1">Taste: {{cocktail.taste}}</p>
             <div class="btn-group">
-                <a type="button" class="btn btn-sm btn-outline-secondary" href="{% url 'add-to-cart' cocktail.id %}">Add
-                    to cart</a>
+                <a type="button" class="btn btn-primary btn-sm btn-outline-secondary"
+                    href="{% url 'allcocktails'%}"> Back </a>
+            </div>
+            <div class="btn-group">
+                <a type="button" class="btn btn-sm btn-outline-secondary" href="{% url 'add-to-cart' cocktail.id %}">Add to cart</a>
             </div>
             <div class="btn-group">
                 <a type="button" class="btn btn-sm btn-outline-secondary"
