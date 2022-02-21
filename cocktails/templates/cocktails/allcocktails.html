@@ -56,6 +56,10 @@
     .backgroundcards {
       background-color: rgb(238, 238, 238);
     }
+
+    .btnbg {
+      background-color: bisque;
+    }
   </style>
 
 
@@ -70,7 +74,7 @@
           <p class="lead">Click on the cocktail for more details. <br>Want to add the cocktail directly to your cart?
             Just click on the "Add to cart" button.</br> </p>
           <p>
-            <a href="{% url 'yourcart' %}" class="btn btn-primary my-2">Your Cart</a>
+            <a href="{% url 'order-summary' %}" class="btn btn-primary my-2">Your Cart</a>
           </p>
         </div>
       </div>
@@ -81,17 +85,18 @@
           {% for cocktail in cocktails.all %}
           <div class="col">
             <div class="card backgroundcards shadow h-100">
-              <a href="{% url 'detail' cocktail.id %}" style="cursor: pointer;"><img class="img-fluid"
+              <a name="{{ cocktail.id }}"href="{% url 'detail' cocktail.id %}" style="cursor: pointer;"><img class="img-fluid"
                   src="{{ cocktail.image.url }}">
                 <title>Placeholder</title></img>
                 <h2 class="card-title p-2"> {{cocktail.title}}</h2>
-                <p><b>€ {{cocktail.price | floatformat:2}}</b> - {%if cocktail.category == "C" %} Cocktail {% else %} Mocktail {% endif %}</p>
+                <p><b>{% if cocktail.discount_price > 0 %} <s>€{{cocktail.price | floatformat:2}}</s> <span class="discount">€{{cocktail.discount_price |floatformat:2}}</span> {% else %} €{{cocktail.price |floatformat:2}}{%endif%}</b> - {%if cocktail.category == "C" %} Cocktail {% else %} Mocktail {% endif %}</p>
                 <div class="card-body d-flex flex-column">
                   <p class="card-text">{{ cocktail.summary }}</p>
                   <div class="d-flex flex-column justify-content-between mt-auto">
-                    <!--<div class="btn-group">
-                    <a type="button" class="btn btn-sm btn-outline-secondary" href="{% url 'add-to-cart' cocktail.id %}">Add to cart</a>
-                  </div>-->
+                      <div class="btn-group">
+                        <a class="btn" href="{% url 'remove-from-cart' cocktail.id %}"><i class="bi bi-dash-square-fill me-2"></i>Remove</a>
+                        <a class="btn" href="{% url 'add-to-cart' cocktail.id %}"><i class="bi bi-plus-square-fill me-2"></i>Add</a>
+                      </div>
                   </div>
                 </div>
             </div>

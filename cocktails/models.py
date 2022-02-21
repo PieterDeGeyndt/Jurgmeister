@@ -14,6 +14,7 @@ class Cocktails(models.Model):
     garnish = models.TextField(blank=True)
     taste = models.TextField(blank=True)
     price = models.FloatField(default=10.00)
+    discount_price = models.FloatField(blank=True)
     category = models.CharField(default="C",choices=CATEGORY_CHOICES, max_length=1)
 
     def __str__(self):
@@ -32,6 +33,20 @@ class OrderItem(models.Model):
     def __str__(self):
             template='{0.item} {0.quantity}'
             return template.format(self)
+    
+    def get_total_item_price(self):
+        return self.quantity * self.item.price
+    
+    def get_total_discount_price(self):
+        return self.quantity * self.item.discount_price
+    
+    def get_amount_saved(self):
+        return self.get_total_item_price() - self.get_total_discount_price()
+    
+    def get_final_price(self):
+        if self.item.discount_price:
+            return self.get_total_discount_price()
+        return self.get_total_item_price()
 
 class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, 
@@ -43,3 +58,9 @@ class Order(models.Model):
 
     def __str__(self):
         return self.user.username
+    
+    def get_total(self):
+        total=0
+        for order_item in self.items.all():
+            total += order_item.get_final_price()
+        return total
