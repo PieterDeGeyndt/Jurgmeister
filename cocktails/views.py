@@ -1,5 +1,5 @@
 from django.shortcuts import render,get_object_or_404,redirect
-from .models import Cocktails, Order, OrderItem
+from .models import Cocktails, Order, OrderItem, BillingAddress
 from django.utils import timezone
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -7,7 +7,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.views import View
 from django.core.exceptions import ObjectDoesNotExist
+from .forms import CheckoutForm
 
+#COCKTAILS
 def allcocktails(request):
     cocktails=Cocktails.objects
     return render(request,'cocktails/allcocktails.html',{'cocktails': cocktails})
@@ -16,18 +18,6 @@ def detail(request, cocktail_id):
     detailcocktail = get_object_or_404(Cocktails, pk=cocktail_id)
     return render(request,'cocktails/detail.html', {'cocktail': detailcocktail})
 
-class OrderSummaryView(LoginRequiredMixin, View):
-    def get(self, *args, **kwargs):
-        try:
-            order=Order.objects.get(user=self.request.user, ordered=False)
-            context={
-                'object':order
-            }
-            return render(self.request,'cocktails/order_summary.html',context)
-        except ObjectDoesNotExist:
-            messages.error(self.request,"You do not have an active order")
-            return redirect("cocktails/allcocktails.html")
-        
 
 @login_required(login_url="/accounts/login")
 def add_to_cart(request, cocktail_id):
@@ -94,7 +84,19 @@ def remove_from_cart(request,cocktail_id):
         messages.info(request, "You do not have an active order")
         return redirect("allcocktails")
 
-# FOR ORDER-SUMMARY
+#ORDER-SUMMARY
+class OrderSummaryView(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        try:
+            order=Order.objects.get(user=self.request.user, ordered=False)
+            context={
+                'object':order
+            }
+            return render(self.request,'cocktails/order_summary.html',context)
+        except ObjectDoesNotExist:
+            messages.error(self.request,"You do not have an active order")
+            return redirect("cocktails/allcocktails.html")
+
 @login_required(login_url="/accounts/login")
 def add_to_cart_summary(request, cocktail_id):
     item = get_object_or_404(Cocktails, pk=cocktail_id)
@@ -181,8 +183,69 @@ def empty_cart(request,cocktail_id):
         messages.info(request, "You do not have an active order")
         return redirect("order-summary")
 
-def checkout(request):
-    return render(request,"cocktails/checkout.html")
+#CheckoutForm
+class CheckoutView(LoginRequiredMixin, View):
+    def get(self, *args,**kwargs):
+        #orders + form
+        try:
+            order=Order.objects.get(user=self.request.user, ordered=False)
+            form = CheckoutForm()
+            context={
+                'object':order,
+                'form':form
+            }
+            return render(self.request,'cocktails/checkout.html',context)
+        except ObjectDoesNotExist:
+            messages.error(self.request,"You do not have an active order")
+            return redirect("cocktails/allcocktails.html")
+    
+    def post(self, *args, **kwargs):
+        form = CheckoutForm(self.request.POST or None)
+        try:
+            order=Order.objects.get(user=self.request.user, ordered=False)
+            if form.is_valid():
+                delivery_method = form.cleaned_data.get('delivery_method')
+                first_name = form.cleaned_data.get('first_name')
+                last_name = form.cleaned_data.get('last_name')
+                email = form.cleaned_data.get('email')
+                street_address = form.cleaned_data.get('street_address')
+                appartment_address = form.cleaned_data.get('appartment_address')
+                zip = form.cleaned_data.get('zip')
+                #TODO: add functionality for these fields
+                # same_billing_address = form.cleaned_data.get('same_billing_address')
+                # save_info = form.cleaned_data.get('save_info')
+                payment_option = form.cleaned_data.get('payment_option')
+                billing_address = BillingAddress(
+                    user=self.request.user,
+                    first_name=first_name,
+                    last_name=last_name,
+                    email=email,
+                    street_address=street_address,
+                    appartment_address=appartment_address,
+                    zip = zip,
+                )
+                billing_address.save()
+                order.billing_address = billing_address
+                order.save()
+                #TODO: add redirect to the selected payment option
+                return redirect('checkout')
+        except ObjectDoesNotExist:
+            messages.error(self.request,"Failed checkout")
+            return redirect("order-summary")
+
+class PaymentView(LoginRequiredMixin,View):
+    def get(self, *args, **kwargs):
+        try:
+            order=Order.objects.get(user=self.request.user, ordered=False)
+            form = CheckoutForm()
+            context={
+                'object':order
+            }
+            return render (self.request,"cocktails/payment.html",context)
+        except ObjectDoesNotExist:
+            messages.error(self.request,"You do not have an active order")
+            return redirect("cocktails/checkout.html")
+        
 
 def your_account(request):
     return redirect('/cocktails')

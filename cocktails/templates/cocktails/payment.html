@@ -2,6 +2,7 @@
 {% block content %}
 <!doctype html>
 <html lang="en">
+
 <head>
   {% load static %}
   {% load cart_template_tags %}
@@ -76,11 +77,24 @@
       }
 
     }
+    /*styling mollie*/
+    @font-face{
+      font-family:Inter;
+      font-style:normal;
+      font-weight:100 900;
+      font-display:optional;
+      src:url(/webfonts/inter-var-latin.woff2) format("woff2");
+      unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}:root{--font-sans:"Inter",ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"
+    }
   </style>
 
 
   <!-- Custom styles for this template -->
   <link href="https://getbootstrap.com/docs/4.5/examples/checkout/form-validation.css" rel="stylesheet">
+  <!-- Mollie stylesheets-->
+  <link href="https://demo.mollie.com/static/css/3.b7b15e27.chunk.css" rel="stylesheet">
+  <link href="https://demo.mollie.com/static/css/main.52251f9b.chunk.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="https://demo.mollie.com/static/css/6.80514a40.chunk.css">
 </head>
 
 <body class="bg-light">
@@ -89,13 +103,13 @@
     <main>
       <!--Main text on top-->
       <div class="py-3 text-center">
-        <h1 class="bisque ganton display-1">Checkout form</h2>
+        <h1 class="bisque ganton display-1">Payment</h2>
           <p class="lead">You can almost taste those delicious cocktails now...</p>
       </div>
       <!--Block on the right-->
       <!-- Your Cart -->
       {% if request.user.is_authenticated %}
-      <div class="row g-5">
+      <div class="row">
         <div class="col-md-5 col-lg-4 order-md-last">
           <h4 class="d-flex justify-content-between align-items-center mb-3">
             <span class="bisque">Your Bill</span>
@@ -111,9 +125,9 @@
               <span class="text-muted">{% if order_item.item.discount_price %}
                 <span class="badge bg-success">Saving €{{ order_item.get_amount_saved|floatformat:2}}</span>
                 €{{ order_item.get_total_discount_price|floatformat:2}}
-            {% else %}
+                {% else %}
                 €{{ order_item.get_total_item_price|floatformat:2}}
-            {% endif %}</span>
+                {% endif %}</span>
             </li>
             {%endfor%}
             <li class="list-group-item d-flex justify-content-between">
@@ -132,98 +146,54 @@
         </div>
 
         <!-- Start of Left part-->
-        <div class="col-md-7 col-lg-8">
-          <!--Delivery Methods-->
-          <h4 class="mb-3">Delivery Method</h4>
-          <form method="POST" class="needs-validation" novalidate>
-            {% csrf_token %}
-            <div class="col-md-10 ms-3">
-              {% for value, name in form.fields.delivery_method.choices %}
-              <div class="container text-start form-check">
-                <input id="{{name}}" name="delivery_method" value={{value}} type="radio" class="form-check-input" required>
-                <label class="form-check-label" for="{{name}}">{{ name }}</label>
-              </div>
-              {% endfor %}
-            </div>
-            <hr class="my-4">
-            <!--Shipping Address-->
-            <h4 class="mb-3">Shipping Address</h4>
-            <div class="row g-3">
-              <!--E-mail-->
-              <div class="col-12">
-                <label for="email" class="form-label">Email*</label>
-                {{form.email}}
-                <div class="invalid-feedback">
-                  Please enter a valid email address for shipping updates.
-                </div>
-              </div>
-              <!--First Name-->
-              <div class="col-12">
-                <label for="firstName">First Name*</label>
-                {{form.first_name}}
-                <div class="invalid-feedback">
-                  Valid first name is required.
-                </div>
-              </div>
-              <!--Last Name-->
-              <div class="col-12">
-                <label for="lastName">Last Name*</label>
-                {{form.last_name}}
-                <div class="invalid-feedback">
-                  Valid last name is required.
-                </div>
-              </div>
-              <!--Address-->
-              <div class="col-12">
-                <label class="form-label">Address</label>
-                {{form.street_address}}
-                <div class="invalid-feedback">
-                  Please enter your shipping address.
-                </div>
-              </div>
-              <div class="col-12">
-                <label class="form-label">Address 2 <span class="text-muted">(Optional)</span></label>
-                {{form.appartment_address}}
-              </div>
-              <!--ZIP Code-->
-              <div class="col-md-12">
-                <label for="zip" class="form-label">Zip Code</label>
-                {{form.zip}}
-                <div class="invalid-feedback">
-                  Zip code required.
-                </div>
+        <div class="col-md-7 mb-4">
+          <div class="styles_animated__J7man styles_fade-in-scale__2KPI7"
+            style="animation-duration: 200ms; animation-delay: 200ms;">
+            <div class="styles_checkout__24FEO">
+              <div class="styles_vstack__3gAXW styles_center__2BYr3 styles_spacing-lg__1zAZB">
+                <header class="styles_vstack__3gAXW styles_center__2BYr3 styles_header__6CK_y"><span
+                    class="styles_description__1gCRg styles_text__s1MLY">Your payment</span><span
+                    class="styles_level-1__16lQT styles_title__3t1I_">Jurgmeister Cocktails</span><span
+                    class="styles_level-1__16lQT styles_title__3t1I_">€80.00</span></header>
+                <ul class="styles_list__bveoh">
+                  <li class="styles_item__3cfWP">
+                    <!--TODO: Href aanpassen-->
+                    <a class="styles_link__270yC" href="#">
+                      <span class="styles_adornment__1zy9i">
+                        <img src="{% static 'bancontact.svg' %}" alt="Bancontact" loading="lazy">
+                      </span>
+                        <span class="styles_body__MS7Bq">
+                          <span class="styles_label__33s9o styles_text__s1MLY">Bancontact</span>
+                          <span class="styles_arrow__10avw">
+                            <svg width="7" height="12">
+                              <path d="M 0 7.5 L 7.5 7.5 L 7.5 0" transform="translate(-3 2) rotate(-45 3.75 3.75)" fill="transparent"></path>
+                            </svg>
+                          </span>
+                        </span>
+                      </a>
+                    </li>
+                  <li class="styles_item__3cfWP">
+                    <!--TODO: Href aanpassen-->
+                    <a class="styles_link__270yC" href="#">
+                      <span class="styles_adornment__1zy9i">
+                        <img src="{% static 'creditcard.svg'%}" alt="Credit Card" loading="lazy">
+                      </span>
+                      <span class="styles_body__MS7Bq">
+                        <span class="styles_label__33s9o styles_text__s1MLY">Credit Card</span>
+                        <span class="styles_arrow__10avw"><svg width="7" height="12">
+                            <path d="M 0 7.5 L 7.5 7.5 L 7.5 0" transform="translate(-3 2) rotate(-45 3.75 3.75)" fill="transparent"></path>
+                          </svg>
+                        </span>
+                      </span>
+                    </a>
+                  </li>
+                </ul>
+                <footer class="styles_footer__3CnGm"><span
+                    class="styles_disclaimer__2NKHm styles_small-text__1ODM5">Demo secured and provided by</span>
+                </footer>
               </div>
             </div>
-            <!--Radio buttons shipping address-->
-            <hr class="my-4">
-            <div class="container text-start form-check">
-              <input {% if form.same_billing_address.value %} checked {% endif %} type="checkbox"
-                class="form-check-input" name="same_billing_address" id="same-address">
-              <label class="form-check-label" for="same-address">
-                Billing address is the same as my shipping address
-              </label>
-            </div>
-            <div class="container text-start form-check">
-              <input {% if form.save_info.value %} checked {% endif %} type="checkbox" class="form-check-input"
-                name="save_info" id="save-info">
-              <label class="form-check-label" for="save-info">Save this information for next time</label>
-            </div>
-            <!--Payment Block-->
-            <hr class="my-4">
-            <h4 class="mb-3">Payment</h4>
-            <!--Payment Methods-->
-            <div class="my-3">
-              {% for value, name in form.fields.payment_option.choices %}
-              <div class="container text-start form-check">
-                <input id="{{name}}" name="payment_option" type="radio" value={{value}} class="form-check-input" required>
-                <label class="form-check-label" for="{{name}}">{{name}}</label>
-              </div>
-              {% endfor %}
-            </div>
-            <!--Payment Details-->
-            <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
-          </form>
-        </div>
+          </div>
       </div>
     </main>
   </div>
@@ -235,5 +205,6 @@
 
   <script src="https://getbootstrap.com/docs/4.5/examples/checkout/form-validation.js"></script>
 </body>
+
 </html>
 {% endblock %}

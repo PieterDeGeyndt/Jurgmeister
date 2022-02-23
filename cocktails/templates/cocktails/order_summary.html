@@ -80,6 +80,7 @@
                         <th scope="col">Price</th>
                         <th scope="col">Total Item Price</th>
                         <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -103,9 +104,10 @@
                         <td>
                         {% if order_item.item.discount_price %}
                             €{{ order_item.get_total_discount_price|floatformat:2}}
-                            <span class="badge bg-success">Saving €{{ order_item.get_amount_saved|floatformat:2}}</span>
+                            <td><span class="badge bg-success">Saving €{{ order_item.get_amount_saved|floatformat:2}}</span></td>
                         {% else %}
                             €{{ order_item.get_total_item_price|floatformat:2}}
+                            <td></td>
                         {% endif %}
                         </td>
                         <td class=" float-right">
@@ -122,9 +124,10 @@
                     {% if object.get_total %}
                     <tr>
                         <td></td>
-                        <td></td>
                         <td class="bisque total"><b>Order Total</b></td>
+                        <td></td> </td>
                         <td class="bisque total"><b>€{{object.get_total|floatformat:2}}</b></td>
+                        <td></td>
                         <td></td>
                     </tr>
             </table>
