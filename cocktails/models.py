@@ -15,7 +15,7 @@ class Cocktails(models.Model):
     garnish = models.TextField(blank=True)
     taste = models.TextField(blank=True)
     price = models.FloatField(default=10.00)
-    discount_price = models.FloatField(blank=True)
+    discount_price = models.FloatField(blank=True, null=True)
     category = models.CharField(default="C",choices=CATEGORY_CHOICES, max_length=1)
 
     def __str__(self):
