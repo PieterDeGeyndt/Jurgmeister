@@ -12,7 +12,7 @@
     }
 
     .backgroundcards {
-          background-color: rgb(238, 238, 238);
+          background-color: rgb(255, 255, 255);
     }
 
     a {
@@ -53,13 +53,14 @@
     <div class="album py-5 backgroundcentertext">
       <div class="container">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-          {% for about in abouts.all %}
+          {% for service in services.all %}
           <div class="col">
-            <a class="card backgroundcards shadow h-100" href="{% url 'aboutdetail' about.id %}">
-              <img class="cardimage" src="{{ about.image.url }}"><title>Placeholder</title></img>
+            <a class="card backgroundcards shadow h-100" href="{% url 'servicedetail' service.id %}">
+              <img class="cardimage" src="{{ service.image.url }}"><title>Placeholder</title></img>
               <div class="card-body">
-                <h2 class="card-title"> {{about.title}}</h2>
-                <p class="card-text">{{ about.body }}</p>
+                <h2 class="card-title"> {{service.title}}</h2>
+                <p class="card-text">{{ service.body }}</p>
+                <p class="card-text"><i>{{service.quotes}}</i></p>
                 <div class="d-flex justify-content-between align-items-center">
                 </div>
               </div>
