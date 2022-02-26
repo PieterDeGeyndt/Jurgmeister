@@ -245,6 +245,7 @@ class PaymentView(LoginRequiredMixin,View):
         except ObjectDoesNotExist:
             messages.error(self.request,"You do not have an active order")
             return redirect("cocktails/checkout.html")
+
         
 
 def your_account(request):
