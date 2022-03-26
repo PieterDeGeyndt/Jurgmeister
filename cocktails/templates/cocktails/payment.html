@@ -154,11 +154,11 @@
                 <header class="styles_vstack__3gAXW styles_center__2BYr3 styles_header__6CK_y"><span
                     class="styles_description__1gCRg styles_text__s1MLY">Your payment</span><span
                     class="styles_level-1__16lQT styles_title__3t1I_">Jurgmeister Cocktails</span><span
-                    class="styles_level-1__16lQT styles_title__3t1I_">€80.00</span></header>
+                    class="styles_level-1__16lQT styles_title__3t1I_">€{{object.get_total|floatformat:2}}</span></header>
                 <ul class="styles_list__bveoh">
                   <li class="styles_item__3cfWP">
                     <!--TODO: Href aanpassen-->
-                    <a class="styles_link__270yC" href="#">
+                    <a class="styles_link__270yC" href="https://api.mollie.com/v2/payments/method/bancontact">
                       <span class="styles_adornment__1zy9i">
                         <img src="{% static 'bancontact.svg' %}" alt="Bancontact" loading="lazy">
                       </span>

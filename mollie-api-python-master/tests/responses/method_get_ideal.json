@@ -1,0 +1,38 @@
+{
+  "_links": {
+    "documentation": {
+      "href": "https://docs.mollie.com/reference/v2/methods-api/get-method",
+      "type": "text/html"
+    },
+    "self": {
+      "href": "https://api.mollie.com/v2/methods/ideal",
+      "type": "application/hal+json"
+    }
+  },
+  "description": "iDEAL",
+  "id": "ideal",
+  "minimumAmount": {
+    "value": "0.01",
+    "currency": "EUR"
+  },
+  "maximumAmount": {
+    "value": "50000.00",
+    "currency": "EUR"
+  },
+  "image": {
+    "size1x": "https://www.mollie.com/external/icons/payment-methods/ideal.png",
+    "size2x": "https://www.mollie.com/external/icons/payment-methods/ideal%402x.png",
+    "svg": "https://www.mollie.com/external/icons/payment-methods/ideal.svg"
+  },
+  "pricing": [
+    {
+      "description": "The Netherlands",
+      "fixed": {
+        "value": "0.29",
+        "currency": "EUR"
+      },
+      "variable": "0"
+    }
+  ],
+  "resource": "method"
+}

@@ -1,5 +1,5 @@
 from django.shortcuts import render,get_object_or_404,redirect
-from .models import Cocktails, Order, OrderItem, BillingAddress
+from .models import Cocktails, Order, OrderItem, BillingAddress, Payment
 from django.utils import timezone
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -8,6 +8,44 @@ from django.http import HttpResponseRedirect
 from django.views import View
 from django.core.exceptions import ObjectDoesNotExist
 from .forms import CheckoutForm
+from mollie.api.client import Client
+from django.conf import settings
+
+# Define new payment
+
+mollie_client = Client()
+mollie_client.set_api_key(settings.MOLLIE_SECRET_KEY)
+
+def get (self, *args, **kwargs):
+    #order
+    return render (self.request,"payment.html")
+    
+def paymentrequest(self, *args, **kwargs):
+    order = Order.objects.get(user=self.request.user, ordered = False)
+    value = order.get_total() 
+    payment = mollie_client.payments.create({
+        'amount': {
+        'currency': 'EUR',
+        'value': value
+        },
+    'description': 'My first API payment',
+    'redirectUrl': 'https://webshop.example.org/order/12345/',
+    'webhookUrl': 'https://webshop.example.org/mollie-webhook/',
+    })
+
+    #create the payment
+    payment = Payment()
+    payment.mollie_payment_id = payment['id']
+    payment.user = self.request.user
+    payment.amount = amount
+    payment.save()
+
+    #assign the payment to the order
+    order.ordered=True
+    order.payment = payment
+    order.save() 
+
+    messages.succes(self.request, "Your order was succesful!")
 
 #COCKTAILS
 def allcocktails(request):

@@ -57,6 +57,7 @@ class Order(models.Model):
     ordered_date=models.DateTimeField()
     ordered=models.BooleanField(default=False)
     billing_address=models.ForeignKey('BillingAddress',on_delete=models.SET_NULL, blank=True, null=True)
+    payment=models.ForeignKey('Payment',on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         return self.user.username
@@ -72,10 +73,19 @@ class BillingAddress(models.Model):
     first_name=models.CharField(max_length=100)
     last_name=models.CharField(max_length=100)
     email=models.EmailField(max_length=100)
+    phone=models.CharField(max_length=14)
     street_address = models.CharField(max_length=100)
     appartment_address=models.CharField(max_length=100)
     zip=models.CharField(max_length=100)
 
     def __str__(self):
         return self.user.username
-    
+
+class Payment(models.Model)
+    mollie_payment_id = models.Charfield(maw_length=50)
+    user = models.Foreignkey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True)
+    amount = models.Floatfield()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.username

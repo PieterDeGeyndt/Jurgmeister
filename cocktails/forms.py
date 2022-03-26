@@ -7,7 +7,7 @@ PAYMENT_CHOICES =(
 )
 
 ZIP_CHOICES=(
-    ('','Kies uw gemeente'),
+    ('','Choose your city'),
     ('T', '1740 - Ternat'),
     ('W', '1741 - Wambeek'),
     ('L', '1742 - Lombeek'),
@@ -34,6 +34,10 @@ class CheckoutForm(forms.Form):
     email=forms.EmailField(widget=forms.EmailInput(attrs={
         'class':'form-control',
         'placeholder':'ritapeeters@example.com',
+    }))
+    phone=forms.CharField(widget=forms.TextInput(attrs={
+        'class':'form-control',
+        'placeholder':'0412 34 56 78'
     }))
     street_address=forms.CharField(widget=forms.TextInput(attrs={
         'class':'form-control',
