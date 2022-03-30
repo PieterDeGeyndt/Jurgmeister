@@ -81,7 +81,7 @@ class BillingAddress(models.Model):
     def __str__(self):
         return self.user.username
 
-class Payment(models.Model)
+class Payment(models.Model):
     mollie_payment_id = models.Charfield(maw_length=50)
     user = models.Foreignkey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True)
     amount = models.Floatfield()
