@@ -155,10 +155,12 @@
                     class="styles_description__1gCRg styles_text__s1MLY">Your payment</span><span
                     class="styles_level-1__16lQT styles_title__3t1I_">Jurgmeister Cocktails</span><span
                     class="styles_level-1__16lQT styles_title__3t1I_">€{{object.get_total|floatformat:2}}</span></header>
-                <ul class="styles_list__bveoh">
+                <form action="." method="post" id="payment-form">
+                  {% csrf_token %}
+                  <ul class="styles_list__bveoh">
                   <li class="styles_item__3cfWP">
                     <!--TODO: Href aanpassen-->
-                    <a class="styles_link__270yC" href="https://api.mollie.com/v2/payments/method/bancontact">
+                    <a class="styles_link__270yC" href="https://api.mollie.com/v2/methods">
                       <span class="styles_adornment__1zy9i">
                         <img src="{% static 'bancontact.svg' %}" alt="Bancontact" loading="lazy">
                       </span>
@@ -188,8 +190,9 @@
                     </a>
                   </li>
                 </ul>
+              </form>
                 <footer class="styles_footer__3CnGm"><span
-                    class="styles_disclaimer__2NKHm styles_small-text__1ODM5">Demo secured and provided by</span>
+                    class="styles_disclaimer__2NKHm styles_small-text__1ODM5">Secured and provided by</span>
                 </footer>
               </div>
             </div>
