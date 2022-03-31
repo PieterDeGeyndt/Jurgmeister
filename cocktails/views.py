@@ -1,4 +1,6 @@
 from django.shortcuts import render,get_object_or_404,redirect
+
+from jurgmeister.settings import MOLLIE_SECRET_KEY
 from .models import Cocktails, Order, OrderItem, BillingAddress, Payment
 from django.utils import timezone
 from django.contrib import messages
@@ -10,42 +12,11 @@ from django.core.exceptions import ObjectDoesNotExist
 from .forms import CheckoutForm
 from mollie.api.client import Client
 from django.conf import settings
+from django.core.mail import send_mail
 
 # Define new payment
-
 mollie_client = Client()
 mollie_client.set_api_key(settings.MOLLIE_SECRET_KEY)
-
-def get (self, *args, **kwargs):
-    #order
-    return render (self.request,"payment.html")
-    
-def paymentrequest(self, *args, **kwargs):
-    order = Order.objects.get(user=self.request.user, ordered = False)
-    value = order.get_total() 
-    payment = mollie_client.payments.create({
-        'amount': {
-        'currency': 'EUR',
-        'value': value
-        },
-    'description': 'My first API payment',
-    'redirectUrl': 'https://webshop.example.org/order/12345/',
-    'webhookUrl': 'https://webshop.example.org/mollie-webhook/',
-    })
-
-    #create the payment
-    payment = Payment()
-    payment.mollie_payment_id = payment['id']
-    payment.user = self.request.user
-    payment.amount = amount
-    payment.save()
-
-    #assign the payment to the order
-    order.ordered=True
-    order.payment = payment
-    order.save() 
-
-    messages.succes(self.request, "Your order was succesful!")
 
 #COCKTAILS
 def allcocktails(request):
@@ -279,12 +250,37 @@ class PaymentView(LoginRequiredMixin,View):
             context={
                 'object':order
             }
-            return render (self.request,"cocktails/payment.html",context)
+            return render (self.request,"https://api.mollie.com/v2/payments/"+ MOLLIE_SECRET_KEY,context)
         except ObjectDoesNotExist:
             messages.error(self.request,"You do not have an active order")
             return redirect("cocktails/checkout.html")
 
-        
+    def post(self, *args, **kwargs):
+        order = Order.objects.get(user=self.request.user, ordered = False)
+        value = order.get_total() 
+        payment = mollie_client.payments.create({
+            'amount': {
+            'currency': 'EUR',
+            'value': value
+            },
+        'description': 'My first API payment',
+        'redirectUrl': 'https://webshop.example.org/order/12345/',
+        'webhookUrl': 'https://webshop.example.org/mollie-webhook/',
+        })
+
+        #create the payment
+        payment = Payment()
+        payment.mollie_payment_id = payment['id']
+        payment.user = self.request.user
+        payment.amount = value
+        payment.save()
+
+        #assign the payment to the order
+        order.ordered = True
+        order.payment = payment
+        order.save() 
+
+        messages.succes(self.request, "Your order was succesful!")
 
 def your_account(request):
     return redirect('/cocktails')

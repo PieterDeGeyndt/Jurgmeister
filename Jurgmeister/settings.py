@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'crispy_forms',
+    'mollie.api.client',
 ]
 
 MIDDLEWARE = [
@@ -160,3 +161,5 @@ try:
     from .local_settings import *
 except ImportError:
     pass
+
+MOLLIE_SECRET_KEY = 'test_GBgp33djvpsy9gvrDsAtUSkE4bwH8H'

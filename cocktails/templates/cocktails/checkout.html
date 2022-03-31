@@ -236,7 +236,15 @@
               {% endfor %}
             </div>-->
             <!--Payment Details-->
-            <button class="w-100 btn btn-primary btn-lg" type="submit"><a class="btncheck text-decoration-none" href="{% url 'payment' %}">Continue to payment</a></button>
+            <button class="w-100 btn btn-primary btn-lg" type="submit">
+              <a class="btncheck text-decoration-none" href="mailto:pieter@test2impress.be?
+              subject=subject&
+              body=
+              {% for order_item in object.items.all %}
+              {{ order_item.quantity}} x {{ order_item.item.title}}
+              {%endfor%}">
+            </a>
+            </button>
           </form>
         </div>
       </div>
