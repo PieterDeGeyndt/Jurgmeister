@@ -1,6 +1,6 @@
 from django.shortcuts import render,get_object_or_404,redirect
 
-from jurgmeister.settings import MOLLIE_SECRET_KEY
+from jurgmeister.settings import MOLLIE_CLIENT_ID, MOLLIE_CLIENT_SECRET, MOLLIE_PUBLIC_URL, MOLLIE_SECRET_KEY
 from .models import Cocktails, Order, OrderItem, BillingAddress, Payment
 from django.utils import timezone
 from django.contrib import messages
@@ -12,11 +12,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from .forms import CheckoutForm
 from mollie.api.client import Client
 from django.conf import settings
-from django.core.mail import send_mail
+import requests
 
-# Define new payment
-mollie_client = Client()
-mollie_client.set_api_key(settings.MOLLIE_SECRET_KEY)
 
 #COCKTAILS
 def allcocktails(request):
@@ -223,7 +220,6 @@ class CheckoutView(LoginRequiredMixin, View):
                 #TODO: add functionality for these fields
                 # same_billing_address = form.cleaned_data.get('same_billing_address')
                 # save_info = form.cleaned_data.get('save_info')
-                payment_option = form.cleaned_data.get('payment_option')
                 billing_address = BillingAddress(
                     user=self.request.user,
                     first_name=first_name,
@@ -248,39 +244,49 @@ class PaymentView(LoginRequiredMixin,View):
             order=Order.objects.get(user=self.request.user, ordered=False)
             form = CheckoutForm()
             context={
-                'object':order
-            }
-            return render (self.request,"https://api.mollie.com/v2/payments/"+ MOLLIE_SECRET_KEY,context)
+                    'object':order
+                    }
+            return render (self.request,"cocktails/payment.html",context)
         except ObjectDoesNotExist:
             messages.error(self.request,"You do not have an active order")
-            return redirect("cocktails/checkout.html")
+            return redirect("cocktails/checkout.html")   
 
     def post(self, *args, **kwargs):
-        order = Order.objects.get(user=self.request.user, ordered = False)
-        value = order.get_total() 
-        payment = mollie_client.payments.create({
+        order=Order.objects.get(user=self.request.user, ordered=False)
+        value = order.get_total()
+        # Define new payment
+        mollie_client = Client()
+        is_authorized, authorization_url = mollie_client.setup_oauth(
+            client_id = MOLLIE_CLIENT_ID,
+            client_secret= MOLLIE_CLIENT_SECRET,
+            redirect_uri = MOLLIE_PUBLIC_URL,
+            token = self.request.POST.get(MOLLIE_SECRET_KEY),
+        )
+        mollie_client.setup_oauth_authorization_response(authorization_response)
+        mollie_client.organizations.get('me')
+        charge = mollie_client.payments.create({
             'amount': {
-            'currency': 'EUR',
-            'value': value
-            },
-        'description': 'My first API payment',
-        'redirectUrl': 'https://webshop.example.org/order/12345/',
-        'webhookUrl': 'https://webshop.example.org/mollie-webhook/',
-        })
+                'currency': 'EUR',
+                'value': value 
+                },
+            'description': "My 1st payment with Mollie",
+            'redirectUrl': 'https://webshop.example.org/order/12345/',
+            'webhookUrl': 'https://webshop.example.org/mollie-webhook/',
+            })
 
         #create the payment
         payment = Payment()
-        payment.mollie_payment_id = payment['id']
+        payment.mollie_payment_id = charge['id']
         payment.user = self.request.user
         payment.amount = value
         payment.save()
-
         #assign the payment to the order
-        order.ordered = True
+        order.ordered=True
         order.payment = payment
         order.save() 
 
-        messages.succes(self.request, "Your order was succesful!")
+        messages.succes(self.request, "Payment opgeslagen")
+        return redirect('/')
 
 def your_account(request):
     return redirect('/cocktails')

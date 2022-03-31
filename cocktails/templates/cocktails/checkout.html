@@ -136,7 +136,7 @@
         <div class="col-md-7 col-lg-8">
           <!--Delivery Methods-->
           <h4 class="mb-3">Delivery Method</h4>
-          <form method="POST" class="needs-validation" novalidate>
+          <form action="." method="POST" class="needs-validation" novalidate>
             {% csrf_token %}
             <div class="col-md-10 ms-3">
               {% for value, name in form.fields.delivery_method.choices %}
