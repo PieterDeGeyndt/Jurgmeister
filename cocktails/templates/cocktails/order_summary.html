@@ -131,8 +131,8 @@
                         <td></td>
                     </tr>
             </table>
-            <button class="btn btn-primary float-right"><a class="btnshop text-decoration-none" href="{% url 'allcocktails' %}"><i class="bi bi-caret-left-square-fill"></i> Continue shopping</a></button>
-            <button class="btn btn-danger float-right"><a class="btncheck text-decoration-none" href="{% url 'checkout' %}">Proceed to checkout <i class="bi bi-cash-coin"></i></a></button>
+            <a class="btn btn-primary float-right btnshop text-decoration-none" href="{% url 'allcocktails' %}"><i class="bi bi-caret-left-square-fill"></i> Continue shopping</a>
+            <a class="btn btncheck text-decoration-none btn-danger float-right" href="{% url 'checkout' %}">Proceed to checkout <i class="bi bi-cash-coin"></i></a>
             {%endif%}
         </div>
     </div>

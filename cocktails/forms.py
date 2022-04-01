@@ -22,24 +22,23 @@ DELIVERY_CHOICES=(
 )
 
 class CheckoutForm(forms.Form):
-    delivery_method=forms.ChoiceField(widget=forms.RadioSelect(),choices=DELIVERY_CHOICES)
-    first_name=forms.CharField(widget=forms.TextInput(attrs={
+    first_name=forms.CharField(required=False, widget=forms.TextInput(attrs={
         'class':'form-control',
         'placeholder':'Rita',
     }))
-    last_name=forms.CharField(widget=forms.TextInput(attrs={
+    last_name=forms.CharField(required=False, widget=forms.TextInput(attrs={
         'class':'form-control',
         'placeholder':'Peeters',
     }))
-    email=forms.EmailField(widget=forms.EmailInput(attrs={
+    email=forms.EmailField(required=False, widget=forms.EmailInput(attrs={
         'class':'form-control',
         'placeholder':'ritapeeters@example.com',
     }))
-    phone=forms.CharField(widget=forms.TextInput(attrs={
+    phone=forms.CharField(required=False, widget=forms.TextInput(attrs={
         'class':'form-control',
         'placeholder':'0412 34 56 78'
     }))
-    street_address=forms.CharField(widget=forms.TextInput(attrs={
+    street_address=forms.CharField(required=False, widget=forms.TextInput(attrs={
         'class':'form-control',
         'placeholder':'Stationsstraat 5',
     }))
@@ -47,10 +46,10 @@ class CheckoutForm(forms.Form):
         'class':'form-control',
         'placeholder':'Bus 2',
     }))
-    zip=forms.ChoiceField(widget=forms.Select(attrs={
+    zip=forms.ChoiceField(required=False, widget=forms.Select(attrs={
         'class':'form-select',
     }), choices=ZIP_CHOICES)
     same_billing_address=forms.BooleanField(required=False)
     save_info=forms.BooleanField(required=False)
-    payment_option=forms.ChoiceField(widget=forms.RadioSelect(),choices=PAYMENT_CHOICES)
+    payment_option=forms.ChoiceField(required=False, widget=forms.RadioSelect(),choices=PAYMENT_CHOICES)
 

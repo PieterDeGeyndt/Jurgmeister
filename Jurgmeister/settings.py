@@ -113,6 +113,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_EMAIL_VERIFICATION = "none"
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
@@ -163,6 +166,3 @@ except ImportError:
     pass
 
 MOLLIE_SECRET_KEY = 'test_wxgbWFHcz9z7CMw7APmHNzJpQwsF5d'
-MOLLIE_CLIENT_ID='app_hhc8S5cE4xe4au6N66JMRNTJ'
-MOLLIE_CLIENT_SECRET= '3mEhekadxyBk3TMGtx7tquwVPdTSTHR2Ks6GsJcR'
-MOLLIE_PUBLIC_URL = "https://7f5f-2a02-a03f-ea2c-8800-a93d-430f-8cd7-bc61.ngrok.io"

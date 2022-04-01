@@ -12,4 +12,5 @@ def cart_item_count(user):
             for item in qs:
                 count+=item.quantity
             return count
+        return 0
     return 0
