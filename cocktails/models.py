@@ -56,14 +56,22 @@ class Order(models.Model):
     start_date=models.DateTimeField(auto_now_add=True)
     ordered_date=models.DateTimeField()
     ordered=models.BooleanField(default=False)
+    delivery_method = models.CharField(max_length=1, null=True,blank=True)
     billing_address=models.ForeignKey('BillingAddress',on_delete=models.SET_NULL, blank=True, null=True)
     charge=models.ForeignKey('Payment',on_delete=models.SET_NULL, blank=True, null=True)
+    total = models.FloatField(default=0.00)
 
     def __str__(self):
         return self.user.username
     
     def get_total(self):
         total=0.00
+        for order_item in self.items.all():
+            total += order_item.get_final_price()
+        return total
+    
+    def get_total_delivery(self):
+        total=5.00
         for order_item in self.items.all():
             total += order_item.get_final_price()
         return total

@@ -117,7 +117,7 @@
             {%endif%}
           </h4>
           <ul class="list-group mb-3">
-            {% for order_item in object.items.all %}
+            {% for order_item in order.items.all %}
             <li class="list-group-item d-flex justify-content-between">
               <div>
                 <h6 class="my-0">{{ order_item.quantity}} x {{ order_item.item.title}}</h6>
@@ -132,7 +132,7 @@
             {%endfor%}
             <li class="list-group-item d-flex justify-content-between">
               <span><b>TOTAL</b></span>
-              <strong>€{{object.get_total|floatformat:2}}</strong>
+              <strong>€{{order.total|floatformat:2}}</strong>
             </li>
           </ul>
           <!-- Promo Code -->
@@ -151,10 +151,10 @@
             style="animation-duration: 200ms; animation-delay: 200ms;">
             <div class="styles_checkout__24FEO">
               <div class="styles_vstack__3gAXW styles_center__2BYr3 styles_spacing-lg__1zAZB">
-                <header class="styles_vstack__3gAXW styles_center__2BYr3 styles_header__6CK_y"><span
-                    class="styles_description__1gCRg styles_text__s1MLY">Your payment</span><span
-                    class="styles_level-1__16lQT styles_title__3t1I_">Jurgmeister Cocktails</span><span
-                    class="styles_level-1__16lQT styles_title__3t1I_">€{{object.get_total|floatformat:2}}</span></header>
+                <header class="styles_vstack__3gAXW styles_center__2BYr3 styles_header__6CK_y">
+                  <span class="styles_description__1gCRg styles_text__s1MLY">Your payment</span>
+                  <span class="styles_level-1__16lQT styles_title__3t1I_">Jurgmeister Cocktails</span>
+                  <span class="styles_level-1__16lQT styles_title__3t1I_">€{{order.total|floatformat:2}}</span></header>
                 <form action="." method="post" id="payment-form">
                   {% csrf_token %}
                   <ul class="styles_list__bveoh">

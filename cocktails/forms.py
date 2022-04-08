@@ -18,38 +18,48 @@ ZIP_CHOICES=(
 
 DELIVERY_CHOICES=(
     ('P', "Pick up the cocktails at Jurgmeister's place"),
-    ('D', "Get the cocktails delivered to your doorstep"),
+    ('D', "Get the cocktails delivered to your doorstep (+ € 5,00)"),
 )
 
 class CheckoutForm(forms.Form):
+    delivery_method = forms.ChoiceField(required=True, widget = forms.RadioSelect(attrs ={
+        'class':'form-control',
+    }), choices = DELIVERY_CHOICES)
+
     first_name=forms.CharField(required=False, widget=forms.TextInput(attrs={
         'class':'form-control',
         'placeholder':'Rita',
     }))
+
     last_name=forms.CharField(required=False, widget=forms.TextInput(attrs={
         'class':'form-control',
         'placeholder':'Peeters',
     }))
+
     email=forms.EmailField(required=False, widget=forms.EmailInput(attrs={
         'class':'form-control',
         'placeholder':'ritapeeters@example.com',
     }))
+
     phone=forms.CharField(required=False, widget=forms.TextInput(attrs={
         'class':'form-control',
         'placeholder':'0412 34 56 78'
     }))
+
     street_address=forms.CharField(required=False, widget=forms.TextInput(attrs={
         'class':'form-control',
         'placeholder':'Stationsstraat 5',
     }))
+
     appartment_address=forms.CharField(required=False, widget=forms.TextInput(attrs={
         'class':'form-control',
         'placeholder':'Bus 2',
     }))
+
     zip=forms.ChoiceField(required=False, widget=forms.Select(attrs={
         'class':'form-select',
     }), choices=ZIP_CHOICES)
-    same_billing_address=forms.BooleanField(required=False)
-    save_info=forms.BooleanField(required=False)
-    payment_option=forms.ChoiceField(required=False, widget=forms.RadioSelect(),choices=PAYMENT_CHOICES)
 
+    same_billing_address=forms.BooleanField(required=False)
+
+    save_info=forms.BooleanField(required=False)

@@ -111,15 +111,22 @@
               </div>
               <span class="text-muted">{% if order_item.item.discount_price %}
                 <span class="badge bg-success">Saving €{{ order_item.get_amount_saved|floatformat:2}}</span>
-                €{{ order_item.get_total_discount_price|floatformat:2}}
+                <span>€{{order_item.get_total_discount_price|floatformat:2}}
                 {% else %}
                 €{{ order_item.get_total_item_price|floatformat:2}}
                 {% endif %}</span>
             </li>
             {%endfor%}
+            <div id="Delivery" style="display:none">
+              <li class="list-group-item d-flex justify-content-between">
+                <span><b>Delivery</b></span>
+                <span>€ 5,00</span>
+              </li>
+            </div>
             <li class="list-group-item d-flex justify-content-between">
               <span><b>TOTAL</b></span>
-              <strong>€{{object.get_total|floatformat:2}}</strong>
+              <strong id="TotalNoDelivery" style="display:none">€{{object.get_total|floatformat:2}}</strong>
+              <strong id="TotalDelivery"style="display:none">€{{object.get_total_delivery|floatformat:2}}</strong>
             </li>
           </ul>
           <!-- Promo Code -->
@@ -141,7 +148,7 @@
             <div class="col-md-10 ms-3">
               {% for value, name in form.fields.delivery_method.choices %}
               <div class="container text-start form-check">
-                <input id="{{name}}" name="delivery_method" value={{value}} type="radio" class="form-check-input"
+                <input id="{{value}}" name="delivery_method" value={{value}} type="radio" class="form-check-input"
                   onclick="javascript:yesnoCheck();" required>
                 <label class="form-check-label" for="{{name}}">{{ name }}</label>
               </div>
@@ -235,7 +242,8 @@
               {% endfor %}
             </div>-->
             <!--Payment Details-->
-              <a class="text-decoration-none" href="#"><button class="w-100 btn btn-primary btn-lg btncheck" type="submit">Go to Verification</button></a>
+            <a class="text-decoration-none" href="#"><button class="w-100 btn btn-primary btn-lg btncheck"
+                type="submit">Go to Verification</button></a>
           </form>
         </div>
       </div>
@@ -250,13 +258,20 @@
   <script src="https://getbootstrap.com/docs/4.5/examples/checkout/form-validation.js"></script>
   <script type="text/javascript">
     function yesnoCheck() {
-      if (document.getElementById("Get the cocktails delivered to your doorstep").checked) {
+      if (document.getElementById("D").checked) {
         document.getElementById('showOnDelivery').style.display = 'block';
         document.getElementById('showOnDelivery1').style.display = 'block';
+        document.getElementById('Delivery').style.display = 'block';
+        document.getElementById('TotalDelivery').style.display = 'block';
+        document.getElementById('TotalNoDelivery').style.display = 'none';
       }
       else {
         document.getElementById('showOnDelivery').style.display = 'none';
         document.getElementById('showOnDelivery1').style.display = 'none';
+        document.getElementById('Delivery').style.display = 'none';
+        document.getElementById('TotalDelivery').style.display = 'none';
+        document.getElementById('TotalNoDelivery').style.display = 'block';
+        total_delivery = object.get_total
       }
     }
   </script>

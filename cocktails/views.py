@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+import cocktails
 
 from jurgmeister.settings import MOLLIE_SECRET_KEY
 from .models import Cocktails, Order, OrderItem, BillingAddress, Payment
@@ -42,18 +43,18 @@ def add_to_cart(request, cocktail_id):
         if order.items.filter(item__pk=item.pk).exists():
             order_item.quantity += 1
             order_item.save()
-            messages.success(request, "This item's quantity was updated.")
+            messages.success(request, "1 " + item.title + " was added to your cart. You now have " + str(order_item.quantity) + " " + item.title + "'s in your cart")
             return redirect("allcocktails")
         else:
-            messages.success(request, "This item was added to your cart.")
             order.items.add(order_item)
+            messages.success(request, "1 " + item.title + " was added to your cart. You now have " + str(order_item.quantity) + " " + item.title + "'s in your cart")
             return redirect("allcocktails")
     else:
         ordered_date = timezone.now()
         order = Order.objects.create(
             user=request.user, ordered_date=ordered_date)
         order.items.add(order_item)
-        messages.success(request, "This item was added to your cart.")
+        messages.success(request, "1 " + item.title + " was added to your cart.")
     return redirect("allcocktails")
 
 
@@ -77,23 +78,21 @@ def remove_from_cart(request, cocktail_id):
             if order_item.quantity > 1:
                 order_item.quantity -= 1
                 order_item.save()
-                messages.info(
-                    request, "One cocktail of this type was removed.")
+                messages.warning(request, "1 " + item.title + " was removed. You now have " + str(order_item.quantity) + " " + item.title + "'s in your cart")
                 return redirect("allcocktails")
             # if only 1, then delete the item from the cart.
             else:
                 order_item.delete()
-                messages.info(
-                    request, "This cocktail was removed from your cart.")
+                messages.info(request, "The last " + item.title + " was removed from your cart.")
                 return redirect("allcocktails")
 
         else:
             # add a message saying the order does not contain the item
-            messages.info(request, "This cocktail is not in your cart.")
+            messages.warning(request, "There is no "+ item.title +" in your cart.")
             return redirect("allcocktails")
     else:
         # add a message saying the user does not have an order
-        messages.info(request, "You do not have an active order")
+        messages.warning(request, "You do not have an active order. Please add cocktails to your cart firs.")
         return redirect("allcocktails")
 
 # ORDER-SUMMARY
@@ -106,8 +105,8 @@ class OrderSummaryView(LoginRequiredMixin, View):
             }
             return render(self.request,'cocktails/order_summary.html', context)
         except ObjectDoesNotExist:
-            messages.error(self.request, "You do not have an active order, add cocktails to your cart")
-            return redirect("/")
+            messages.warning(self.request, "You do not have an active order yet, please add cocktails to your cart first.")
+            return redirect("allcocktails")
 
 
 @login_required(login_url="/accounts/login")
@@ -125,10 +124,10 @@ def add_to_cart_summary(request, cocktail_id):
         if order.items.filter(item__pk=item.pk).exists():
             order_item.quantity += 1
             order_item.save()
-            messages.info(request, "This item's quantity was updated.")
+            messages.info(request, "1 " + item.title + " was added to your cart.")
             return redirect("order-summary")
         else:
-            messages.info(request, "This item was added to your cart.")
+            messages.info(request, "1 " + item.title + " was added to your cart.")
             order.items.add(order_item)
             return redirect("order-summary")
     else:
@@ -136,7 +135,7 @@ def add_to_cart_summary(request, cocktail_id):
         order = Order.objects.create(
             user=request.user, ordered_date=ordered_date)
         order.items.add(order_item)
-        messages.info(request, "This item was added to your cart.")
+        messages.info(request, "1 " + item.title + " was added to your cart.")
         return redirect("order-summary")
 
 
@@ -161,22 +160,22 @@ def remove_from_cart_summary(request, cocktail_id):
                 order_item.quantity -= 1
                 order_item.save()
                 messages.info(
-                    request, "One cocktail of this type was removed.")
+                    request, "1 " + item.title + " was added to your cart.")
                 return redirect("order-summary")
             # if only 1, then delete the item from the cart.
             else:
                 order_item.delete()
                 messages.info(
-                    request, "This cocktail was removed from your cart.")
+                    request, "The last " + item.title + " was removed from your cart.")
                 return redirect("order-summary")
 
         else:
             # add a message saying the order does not contain the item
-            messages.info(request, "This cocktail is not in your cart.")
+            messages.info(request, "A " + item.title + " is not in your cart or you don't have an active order yet, so it can't be removed.")
             return redirect("order-summary")
     else:
         # add a message saying the user does not have an order
-        messages.info(request, "You do not have an active order")
+        messages.info(request, "You do not have an active order. Please add cocktails to your cart first.")
         return redirect("order-summary")
 
 
@@ -194,11 +193,11 @@ def empty_cart(request, cocktail_id):
     )[0]
     if order_qs.exists():
         order_item.delete()
-        messages.info(request, "This cocktail was removed from your cart.")
+        messages.info(request, "The last " + item.title + " was removed from your cart.")
         return redirect("order-summary")
     else:
         # add a message saying the user does not have an order
-        messages.info(request, "You do not have an active order")
+        messages.info(request, "You do not have an active order. Please add cocktails to your cart first.")
         return redirect("order-summary")
 
 # CheckoutForm
@@ -214,7 +213,7 @@ class CheckoutView(LoginRequiredMixin, View):
             }
             return render(self.request, 'cocktails/checkout.html', context)
         except ObjectDoesNotExist:
-            messages.error(self.request, "You do not have an active order")
+            messages.warning(self.request, "You do not have an active order. Please return to Cocktails and add cocktails to your cart first.")
             return redirect("order-summary")
 
     def post(self, *args, **kwargs):
@@ -246,11 +245,16 @@ class CheckoutView(LoginRequiredMixin, View):
                 )
                 billing_address.save()
                 order.billing_address = billing_address
+                order.delivery_method = delivery_method
+                if delivery_method == "D":
+                    order.total = order.get_total_delivery()
+                else:
+                    order.total = order.get_total()
                 order.save()
                 # TODO: create completely new order
                 return redirect("payment")
         except ObjectDoesNotExist:
-            messages.error(self.request, "Failed checkout")
+            messages.warning(self.request, "Failed checkout")
             return redirect("order-summary")
 
 
@@ -260,17 +264,17 @@ class PaymentView(LoginRequiredMixin, View):
             order = Order.objects.get(user=self.request.user, ordered=False)
             form = CheckoutForm()
             context = {
-                'object': order
+                'order': order
             }
             return render(self.request, "cocktails/payment.html", context)
         except ObjectDoesNotExist:
-            messages.error(self.request, "You do not have an active order")
+            messages.warning(self.request, "You do not have an active order. Please return to the site and add cocktails to your cart first.")
             return redirect("cocktails/checkout.html")
 
     def post(self, *args, **kwargs):
         try:
             order = Order.objects.get(user=self.request.user, ordered=False)
-            value = str(order.get_total())+'0'
+            value = str(order.total) + '0'
             # Define new payment
             mollie_client = Client()
             mollie_client.set_api_key(MOLLIE_SECRET_KEY)
@@ -287,7 +291,7 @@ class PaymentView(LoginRequiredMixin, View):
             payment = Payment()
             payment.mollie_payment_id = charge.id
             payment.user = self.request.user
-            payment.amount = order.get_total()
+            payment.amount = order.total
             payment.save()
             # assign the payment to the order
             order_items=order.items.all()
@@ -296,12 +300,15 @@ class PaymentView(LoginRequiredMixin, View):
                 item.save()
             order.charge = payment
             order.ordered = True
+            order.items.delete()
             order.save()
-            messages.success(self.request, "Payment opgeslagen")
+            messages.success(self.request, "Your order was succesful!")
             return redirect(charge.checkout_url)
+
         except ObjectDoesNotExist:
             messages.error(self.request, "You do not have an active order")
             return redirect("order-summary")
+        #excepts toevoegen voor mollie errors + back in browser
 
 def your_account(request):
     return redirect('/cocktails')
