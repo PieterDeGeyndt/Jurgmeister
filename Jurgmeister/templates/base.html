@@ -42,21 +42,31 @@
         }
 
         /* Footer */
+        .footer {
+            font-size:small;
+            color:whitesmoke;
+        }
+
+        .footerlogo {
+            max-height:35px
+        }
+
         .footera {
             text-decoration: none;
-            color: rgb(255, 255, 255)
+            color:bisque;
+
         }
 
         .footera:link {
-            color: rgb(255, 255, 255);
+            color:bisque;
         }
 
         .footera:hover {
-            color: rgb(255, 255, 255);
+            color:bisque;
         }
 
         .footera:visited {
-            color: rgb(255, 255, 255);
+            color:bisque;
         }
 
         /* Bootstrap */
@@ -196,9 +206,9 @@
     </header>
     {% block content %}
     {% endblock %}
-    <footer class="mt-auto text-white">
-        <p class="mb-1 text-center">&copy; <a class="footera" target="_blank"
-                href="http://www.test2impress.be">Test2Impress.be</a> - {% now "Y" %}</p>
+    <footer class="footer bg-black mt-auto">
+        <p class="mb-1 text-center">&copy;
+            <a class="footera" target="_blank" href="http://www.test2impress.be"><img class="footerlogo"src="{% static 'Logo_Black.jpg'%}"></a>{% now "Y" %}</p>
     </footer>
 
     <!-- JavaScript Bundle with Popper -->

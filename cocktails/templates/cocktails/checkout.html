@@ -112,9 +112,9 @@
               <span class="text-muted">{% if order_item.item.discount_price %}
                 <span class="badge bg-success">Saving €{{ order_item.get_amount_saved|floatformat:2}}</span>
                 <span>€{{order_item.get_total_discount_price|floatformat:2}}
-                {% else %}
-                €{{ order_item.get_total_item_price|floatformat:2}}
-                {% endif %}</span>
+                  {% else %}
+                  €{{ order_item.get_total_item_price|floatformat:2}}
+                  {% endif %}</span>
             </li>
             {%endfor%}
             <div id="Delivery" style="display:none">
@@ -126,7 +126,7 @@
             <li class="list-group-item d-flex justify-content-between">
               <span><b>TOTAL</b></span>
               <strong id="TotalNoDelivery" style="display:none">€{{object.get_total|floatformat:2}}</strong>
-              <strong id="TotalDelivery"style="display:none">€{{object.get_total_delivery|floatformat:2}}</strong>
+              <strong id="TotalDelivery" style="display:none">€{{object.get_total_delivery|floatformat:2}}</strong>
             </li>
           </ul>
           <!-- Promo Code -->
@@ -143,16 +143,18 @@
         <div class="col-md-7 col-lg-8">
           <!--Delivery Methods-->
           <h4 class="mb-3">Delivery Method</h4>
-          <form action="." method="post" class="needs-validation">
+          <form id="delform" action="." method="post" class="needs-validation">
             {% csrf_token %}
             <div class="col-md-10 ms-3">
-              {% for value, name in form.fields.delivery_method.choices %}
               <div class="container text-start form-check">
-                <input id="{{value}}" name="delivery_method" value={{value}} type="radio" class="form-check-input"
-                  onclick="javascript:yesnoCheck();" required>
-                <label class="form-check-label" for="{{name}}">{{ name }}</label>
+                {% for value, name in form.fields.delivery_method.choices %}
+                <label class="form-check-label" for="{{value}}">
+                  <input id="{{value}}" name="delivery_method" value={{value}} type="radio" class="form-check-input"
+                    onclick="javascript:yesnoCheck();" required>
+                  {{ name }}
+                </label>
+                {% endfor %}
               </div>
-              {% endfor %}
             </div>
             <hr class="my-4">
             <h4 class="mb-3">Your info</h4>
@@ -194,7 +196,7 @@
                 <div class="col-12">
                   <label class="form-label">Address*</label>
                   {{form.street_address}}
-                  <div class="invalid-feedback">
+                  <div id="shippingAddress" class="invalid-feedback">
                     Please enter your shipping address.
                   </div>
                 </div>
@@ -206,7 +208,7 @@
                 <div class="col-md-12">
                   <label for="zip" class="form-label">Zip Code*</label>
                   {{form.zip}}
-                  <div class="invalid-feedback">
+                  <div id="ZipCode" class="invalid-feedback">
                     Zip code required.
                   </div>
                 </div>
@@ -242,8 +244,9 @@
               {% endfor %}
             </div>-->
             <!--Payment Details-->
-            <a class="text-decoration-none" href="#"><button class="w-100 btn btn-primary btn-lg btncheck"
-                type="submit">Go to Verification</button></a>
+            <button id="back" onclick="goBack()" type="button" class="w-30 btn btn-danger btn-lg m-3">Return to
+              checkout</button>
+            <button id="next" class="w-30 btn btn-primary btn-lg btncheck m-3" type="submit">Go to Verification</button>
           </form>
         </div>
       </div>
@@ -274,6 +277,52 @@
         total_delivery = object.get_total
       }
     }
+  </script>
+  <script>
+    const formId = "delform"; // ID of the form
+    const url = location.href; //  href for the page
+    const formIdentifier = `${url} ${formId}`; // Identifier used to identify the form
+    const saveButton = document.querySelector("#back"); // select save button
+    const alertBox = document.querySelector(".alert"); // select alert display div
+    let form = document.querySelector(`#${formId}`); // select form
+    let formElements = form.elements; // get the elements in the form
+    /**
+     
+ * This function gets the values in the form
+ * and returns them as an object with the
+ * [formIdentifier] as the object key
+ * @returns {Object}
+ */
+    const getFormData = () => {
+      let data = { [formIdentifier]: {} }; // create an empty object with the formIdentifier as the key and an empty object as its value
+      for (const element of formElements) {
+        if (element.name.length > 0) {
+          data[formIdentifier][element.name] = element.value;
+        }
+      }
+      return data;
+    };
+
+    saveButton.onclick = event => {
+      event.preventDefault();
+      data = getFormData();
+      localStorage.setItem(formIdentifier, JSON.stringify(data[formIdentifier]));
+      window.history.back();
+    };
+
+    const populateForm = () => {
+      if (localStorage.key(formIdentifier)) {
+        const savedData = JSON.parse(localStorage.getItem(formIdentifier)); // get and parse the saved data from localStorage
+        for (const element of formElements) {
+          if (element.name in savedData) {
+            element.value = savedData[element.name];
+          }
+        }
+        const message = "Form has been refilled with saved data!";
+        displayAlert(message);
+      }
+    };
+    document.onload = populateForm(); // populate the form when the document is loaded
   </script>
 </body>
 
