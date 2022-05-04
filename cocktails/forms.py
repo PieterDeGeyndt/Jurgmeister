@@ -7,7 +7,7 @@ PAYMENT_CHOICES = (
 )
 
 ZIP_CHOICES = (
-    ('', 'Choose your city'),
+    ('', 'Kies je gemeente'),
     ('T', '1740 - Ternat'),
     ('W', '1741 - Wambeek'),
     ('L', '1742 - Lombeek'),
@@ -17,8 +17,8 @@ ZIP_CHOICES = (
 )
 
 DELIVERY_CHOICES = (
-    ('P', "Pick up the cocktails at Jurgmeister's place"),
-    ('D', "Get the cocktails delivered to your doorstep (+ € 5,00)"),
+    ('P', "Haal de cocktails op bij Jurgmeister Cocktails"),
+    ('D', "Laat de cocktails bij jou thuis leveren (+ € 5,00)"),
 )
 
 
@@ -47,7 +47,7 @@ class CheckoutForm(forms.Form):
         'placeholder': '0412 34 56 78'
     }))
 
-    street_address = forms.CharField(required=True, widget=forms.TextInput(attrs={
+    street_address = forms.CharField(required=False, widget=forms.TextInput(attrs={
         'class': 'form-control',
         'placeholder': 'Stationsstraat 5',
     }))
@@ -57,7 +57,7 @@ class CheckoutForm(forms.Form):
         'placeholder': 'Bus 2',
     }))
 
-    zip = forms.ChoiceField(required=True, widget=forms.Select(attrs={
+    zip = forms.ChoiceField(required=False, widget=forms.Select(attrs={
         'class': 'form-select',
     }), choices=ZIP_CHOICES)
 
@@ -67,7 +67,7 @@ class CheckoutForm(forms.Form):
 
     def clean(self):
         data = super(CheckoutForm, self).clean()
-        if data.get('delivery_method') == 'D':
+        if data.get('delivery_method') == 'P':
             for field_name in ['street_address', 'zip']:
                 if field_name in self.errors:
                     del self.errors[field_name]

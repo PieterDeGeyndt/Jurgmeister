@@ -34,11 +34,15 @@
 
 
     <style>
+        .btn:hover {
+            color: rgb(255, 255, 255);
+        }
+        
         a {
             text-decoration: none;
         }
-
         a:link,
+        a:active,
         a:visited {
             color: rgb(255, 255, 255);
         }
@@ -79,6 +83,17 @@
             text-align: center;
         }
 
+        .vl {
+            border-left: 1px solid rgb(173, 173, 173);
+            height: 40px;
+        }
+        
+        .buttons{
+            position: relative;
+            right: 200%;
+            width: 120px;
+        }
+
         @keyframes imageAnimation {
             0% {
                 animation-timing-function: ease-in;
@@ -117,18 +132,17 @@
     <div class="cover-container d-flex p-0 mx-auto flex-column">
         <main class="backgroundcentertext p-3">
             <h1 class="text-center p-3">{{cocktail.title}}</h1>
-            <p class="lead text-left p-1">Ingredients: {{cocktail.body}}</p>
-            <p class="lead text-left p-1">Garnish: {{cocktail.garnish}}</p>
-            <p class="lead text-left p-1">Taste: {{cocktail.taste}}</p>
+            <p class="lead text-left p-1">Ingrediënten: {{cocktail.body}}</p>
+            <p class="lead text-left p-1">Garnering: {{cocktail.garnish}}</p>
+            <p class="lead text-left p-1">Smaak: {{cocktail.taste}}</p>
+            <hr>
             <div class="btn-group">
-                <a type="button" class="btn btn-primary btn-sm btn-outline-secondary" href="{% url 'allcocktails'%}"> Back </a>
+                <a type="btn" class="buttons btn-primary btn btn-outline-secondary" href="{% url 'allcocktails'%}"> Terug </a>
             </div>
             <div class="btn-group">
-                <a type="button" class="btn btn-sm btn-outline-secondary" href="{% url 'add-to-cart' cocktail.id %}">Add to cart</a>
-            </div>
-            <div class="btn-group">
-                <a type="button" class="btn btn-sm btn-outline-secondary"
-                    href="{% url 'remove-from-cart' cocktail.id %}">Remove from cart</a>
+                <a class="btn" href="{% url 'add-to-cart' cocktail.id %}"><i class="bi bi-plus-square-fill me-2"></i>Toevoegen</a>
+            <div class="vl"></div>
+                <a class="btn" href="{% url 'remove-from-cart' cocktail.id %}"><i class="bi bi-dash-square-fill me-2"></i>Verwijderen</a>
             </div>
         </main>
     </div>

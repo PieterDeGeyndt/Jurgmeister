@@ -12,7 +12,7 @@
   <meta name="description" content="">
   <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
   <meta name="generator" content="Hugo 0.88.1">
-  <title>Checkout Form</title>
+  <title>Uw Rekening</title>
 
   <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/checkout/">
 
@@ -90,16 +90,17 @@
     <main>
       <!--Main text on top-->
       <div class="py-3 text-center">
-        <h1 class="bisque ganton display-1">Checkout form</h2>
-          <p class="lead">You can almost taste those delicious cocktails now...</p>
+        <h1 class="bisque ganton display-1">Levering</h2>
+          <p class="lead">Je kan de cocktails bijna proeven!</p>
       </div>
+      <br/>
       <!--Block on the right-->
       <!-- Your Cart -->
       {% if request.user.is_authenticated %}
       <div class="row g-5">
         <div class="col-md-5 col-lg-4 order-md-last">
           <h4 class="d-flex justify-content-between align-items-center mb-3">
-            <span class="bisque">Your Bill</span>
+            <span class="bisque">Uw rekening</span>
             <span class="badge bg-danger text-light rounded-pill">{{request.user|cart_item_count}}</span>
             {%endif%}
           </h4>
@@ -110,7 +111,7 @@
                 <h6 class="my-0">{{ order_item.quantity}} x {{ order_item.item.title}}</h6>
               </div>
               <span class="text-muted">{% if order_item.item.discount_price %}
-                <span class="badge bg-success">Saving €{{ order_item.get_amount_saved|floatformat:2}}</span>
+                <span class="badge bg-success">Bespaar €{{ order_item.get_amount_saved|floatformat:2}}</span>
                 <span>€{{order_item.get_total_discount_price|floatformat:2}}
                   {% else %}
                   €{{ order_item.get_total_item_price|floatformat:2}}
@@ -119,13 +120,13 @@
             {%endfor%}
             <div id="Delivery" style="display:none">
               <li class="list-group-item d-flex justify-content-between">
-                <span><b>Delivery</b></span>
+                <span><b>Levering</b></span>
                 <span>€ 5,00</span>
               </li>
             </div>
             <li class="list-group-item d-flex justify-content-between">
-              <span><b>TOTAL</b></span>
-              <strong id="TotalNoDelivery" style="display:none">€{{object.get_total|floatformat:2}}</strong>
+              <span><b>TOTAAL</b></span>
+              <strong id="TotalNoDelivery" style="display:block">€{{object.get_total|floatformat:2}}</strong>
               <strong id="TotalDelivery" style="display:none">€{{object.get_total_delivery|floatformat:2}}</strong>
             </li>
           </ul>
@@ -142,7 +143,7 @@
         <!-- Start of Left part-->
         <div class="col-md-7 col-lg-8">
           <!--Delivery Methods-->
-          <h4 class="mb-3">Delivery Method</h4>
+          <h4 class="mb-3">Leveringsmethode</h4>
           <form id="delform" action="." method="post" class="needs-validation">
             {% csrf_token %}
             <div class="col-md-10 ms-3">
@@ -157,59 +158,59 @@
               </div>
             </div>
             <hr class="my-4">
-            <h4 class="mb-3">Your info</h4>
+            <h4 class="mb-3">Uw gegevens</h4>
             <div class="row g-3">
               <!--First Name-->
               <div class="col-12">
-                <label for="firstName">First Name*</label>
+                <label for="firstName">Voornaam*</label>
                 {{form.first_name}}
                 <div class="invalid-feedback">
-                  Valid first name is required.
+                  Voornaam is een verplicht veld.
                 </div>
               </div>
               <!--Last Name-->
               <div class="col-12">
-                <label for="lastName">Last Name*</label>
+                <label for="lastName">Achternaam*</label>
                 {{form.last_name}}
                 <div class="invalid-feedback">
-                  Valid last name is required.
+                  Achternaam is een verplicht veld.
                 </div>
               </div>
               <!--E-mail-->
               <div class="col-12">
-                <label for="email" class="form-label">Email*</label>
+                <label for="email" class="form-label">E-mail*</label>
                 {{form.email}}
                 <div class="invalid-feedback">
-                  Please enter a valid email address for shipping updates.
+                  E-mail is een verplicht veld.
                 </div>
               </div>
               <!--Phone-->
               <div class="col-12">
-                <label for="phone" class="form-label">Phone*</label>
+                <label for="phone" class="form-label">Telefoonnummer*</label>
                 {{form.phone}}
                 <div class="invalid-feedback">
-                  Please enter a valid phone nnumber for shipping updates.
+                  Telefoonnummer is een verplicht veld.
                 </div>
               </div>
               <div id="showOnDelivery" style="display:none">
                 <!--Address-->
                 <div class="col-12">
-                  <label class="form-label">Address*</label>
+                  <label class="form-label">Adres*</label>
                   {{form.street_address}}
-                  <div id="shippingAddress" class="invalid-feedback">
-                    Please enter your shipping address.
+                  <div id="street_address" class="invalid-feedback">
+                    Adres is een verplicht veld.
                   </div>
                 </div>
                 <div class="col-12">
-                  <label class="form-label">Address 2</label>
+                  <label class="form-label">Extra Adresgegevens</label>
                   {{form.appartment_address}}
                 </div>
                 <!--ZIP Code-->
                 <div class="col-md-12">
-                  <label for="zip" class="form-label">Zip Code*</label>
+                  <label for="zip" class="form-label">Gemeente*</label>
                   {{form.zip}}
                   <div id="ZipCode" class="invalid-feedback">
-                    Zip code required.
+                    Gemeente is een verplicht veld.
                   </div>
                 </div>
               </div>
@@ -220,7 +221,7 @@
                   <input {% if form.same_billing_address.value %} checked {% endif %} type="checkbox"
                     class="form-check-input" name="same_billing_address" id="same-address">
                   <label class="form-check-label" for="same-address">
-                    Billing address is the same as my shipping address
+                    Facturatieadres is hetzelfde als het leveringsadres
                   </label>
                 </div>
               </div>
@@ -228,7 +229,7 @@
             <div class="container text-start form-check">
               <input {% if form.save_info.value %} checked {% endif %} type="checkbox" class="form-check-input"
                 name="save_info" id="save-info">
-              <label class="form-check-label" for="save-info">Save this information for next time</label>
+              <label class="form-check-label" for="save-info">Bewaar deze informatie voor de volgende keer</label>
             </div>
             <!--Payment Block
             <hr class="my-4">
@@ -244,9 +245,8 @@
               {% endfor %}
             </div>-->
             <!--Payment Details-->
-            <button id="back" onclick="goBack()" type="button" class="w-30 btn btn-danger btn-lg m-3">Return to
-              checkout</button>
-            <button id="next" class="w-30 btn btn-primary btn-lg btncheck m-3" type="submit">Go to Verification</button>
+            <button id="back" onclick="goBack()" type="button" class="w-30 btn btn-primary btn-lg m-3">Terug naar winkelwagentje</button>
+            <button id="next" class="w-30 btn btn-danger btn-lg btncheck m-3" type="submit">Verder naar betaling</button>
           </form>
         </div>
       </div>
@@ -264,6 +264,8 @@
       if (document.getElementById("D").checked) {
         document.getElementById('showOnDelivery').style.display = 'block';
         document.getElementById('showOnDelivery1').style.display = 'block';
+        document.getElementById('id_street_address').setAttribute('required', '');
+        document.getElementById('id_zip').setAttribute('required', '');
         document.getElementById('Delivery').style.display = 'block';
         document.getElementById('TotalDelivery').style.display = 'block';
         document.getElementById('TotalNoDelivery').style.display = 'none';
@@ -271,6 +273,8 @@
       else {
         document.getElementById('showOnDelivery').style.display = 'none';
         document.getElementById('showOnDelivery1').style.display = 'none';
+        document.getElementById('id_street_address').removeAttribute('required', '');
+        document.getElementById('id_zip').removeAttribute('required', '');
         document.getElementById('Delivery').style.display = 'none';
         document.getElementById('TotalDelivery').style.display = 'none';
         document.getElementById('TotalNoDelivery').style.display = 'block';

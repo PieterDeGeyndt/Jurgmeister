@@ -60,6 +60,12 @@
     .btnbg {
       background-color: bisque;
     }
+  
+    .vl {
+      border-left: 1px solid rgb(173, 173, 173);
+      height: 40px;
+    }
+</style>
   </style>
 
 
@@ -70,11 +76,10 @@
     <section class="text-white py-3 text-center">
       <div class="row py-lg-5">
         <div class="col-lg-6 col-md-8 mx-auto">
-          <h1 class="fw-light">Choose your cocktails</h1>
-          <p class="lead">Click on the cocktail for more details. <br>Want to add the cocktail directly to your cart?
-            Just click on the "Add to cart" button.</br> </p>
+          <h1 class="fw-light">Maak een keuze uit onze heerlijke cocktails!</h1>
+          <p class="lead">Wij leveren de cocktails aan huis of U kan ze bij ons komen ophalen.<br/>Klik op een cocktail voor meer details.</p>
           <p>
-            <a href="{% url 'order-summary' %}" class="btn btn-primary my-2">Your Cart</a>
+            <a href="{% url 'order-summary' %}" class="btn btn-primary my-2">Uw winkelwagen</a>
           </p>
         </div>
       </div>
@@ -92,9 +97,11 @@
                 <div class="card-body d-flex flex-column">
                   <p class="card-text">{{ cocktail.summary }}</p>
                   <div class="d-flex flex-column justify-content-between mt-auto">
+                    <hr>
                     <div class="btn-group">
-                      <a class="btn" href="{% url 'remove-from-cart' cocktail.id %}"><i class="bi bi-dash-square-fill me-2"></i>Remove</a>
-                      <a class="btn" href="{% url 'add-to-cart' cocktail.id %}"><i class="bi bi-plus-square-fill me-2"></i>Add</a>
+                      <a class="btn" href="{% url 'add-to-cart' cocktail.id %}"><i class="bi bi-plus-square-fill me-2"></i>Toevoegen</a>
+                      <div class="vl"></div>
+                      <a class="btn" href="{% url 'remove-from-cart' cocktail.id %}"><i class="bi bi-dash-square-fill me-2"></i>Verwijderen</a>
                     </div>
                   </div>
                 </div>
@@ -108,6 +115,8 @@
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
     crossorigin="anonymous"></script>
 </body>
-
+<script>
+document.querySelector("#anchor").focus();
+</script>
 </html>
 {% endblock %}

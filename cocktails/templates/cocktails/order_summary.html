@@ -71,14 +71,15 @@
 <body>
     <div class="container">
         <div class="table-responsive text-nowrap">
-            <h1 class="bisque ganton display-1">Your Cart</h1>
+            <h1 class="bisque ganton display-1">Uw Wagentje</h1>
+            <p class="lead">Lekker Lijstje!</p>
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Item Title</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Total Item Price</th>
+                        <th scope="col">Hoeveelheid</th>
+                        <th scope="col">Cocktail</th>
+                        <th scope="col">Prijs/eenheid</th>
+                        <th scope="col">Totale prijs</th>
                         <th></th>
                         <th></th>
                     </tr>
@@ -116,7 +117,7 @@
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="5">No cocktails here! Maybe you drank 'm all?!</td>
+                        <td colspan="5">Geen cocktails hier! Misschien heb je ze al opgedronken?!</td>
                     </tr>
                 </table>
                 <button class="btn btn-primary float-right"><a class="btnshop text-decoration-none" href="{% url 'allcocktails' %}"><i class="bi bi-caret-left-square-fill"></i> Continue shopping</a></button>
@@ -124,15 +125,15 @@
                     {% if object.get_total %}
                     <tr>
                         <td></td>
-                        <td class="bisque total"><b>Order Total</b></td>
+                        <td class="bisque total"><b>Totaal</b></td>
                         <td></td> </td>
                         <td class="bisque total"><b>€{{object.get_total|floatformat:2}}</b></td>
                         <td></td>
                         <td></td>
                     </tr>
             </table>
-            <a class="btn btn-primary float-right btnshop text-decoration-none" href="{% url 'allcocktails' %}">Continue shopping</a>
-            <a class="btn btncheck text-decoration-none btn-danger float-right" href="{% url 'checkout' %}">Proceed to checkout</a>
+            <a class="btn btn-primary float-right btnshop text-decoration-none w-30 btn-lg m-3" href="{% url 'allcocktails' %}">Terug naar cocktails</a>
+            <a class="btn btncheck text-decoration-none btn-danger float-right w-30 btn-lg m-3" href="{% url 'checkout' %}">Verder naar levering</a>
             {%endif%}
         </div>
     </div>

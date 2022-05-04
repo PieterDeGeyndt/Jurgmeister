@@ -5,3 +5,6 @@ def home(request):
 
 def instagram(request):
     return render(request,'homepage/instagram.html')
+
+def info(request):
+    return render(request,'homepage/info.html')

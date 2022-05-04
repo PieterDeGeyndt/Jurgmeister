@@ -1,6 +1,9 @@
+from asyncio.windows_events import NULL
+from datetime import datetime
+from distutils.command.clean import clean
+from logging import NullHandler
+from tkinter.messagebox import NO
 from django.shortcuts import render, get_object_or_404, redirect
-import cocktails
-
 from jurgmeister.settings import MOLLIE_SECRET_KEY
 from .models import Cocktails, Order, OrderItem, BillingAddress, Payment
 from django.utils import timezone
@@ -13,7 +16,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from .forms import CheckoutForm
 from mollie.api.client import Client
 from django.conf import settings
-import requests
 from django.core.mail import send_mail
 
 
@@ -31,31 +33,37 @@ def detail(request, cocktail_id):
 @login_required(login_url="/accounts/login")
 def add_to_cart(request, cocktail_id):
     item = get_object_or_404(Cocktails, pk=cocktail_id)
+    #get all unordered items for that users from OrderItem db
     order_item, created = OrderItem.objects.get_or_create(
         item=item,
         user=request.user,
-        ordered=False
+        ordered = False,
     )
+    #get all unordered orders of that user
     order_qs = Order.objects.filter(user=request.user, ordered=False)
     if order_qs.exists():
+        #if it exists take top order
         order = order_qs[0]
-        # check if the order item is in the order
+        # check if the item is already in the order
         if order.items.filter(item__pk=item.pk).exists():
+            #if it is than augment the quantity with 1
             order_item.quantity += 1
             order_item.save()
             messages.success(request, "1 " + item.title + " was added to your cart. You now have " + str(order_item.quantity) + " " + item.title + "'s in your cart")
             return redirect("allcocktails")
+        #if the item is not yet in the order than add the item to the order
         else:
             order.items.add(order_item)
             messages.success(request, "1 " + item.title + " was added to your cart. You now have " + str(order_item.quantity) + " " + item.title + "'s in your cart")
             return redirect("allcocktails")
+    #if there's no unordered order for that user
     else:
         ordered_date = timezone.now()
         order = Order.objects.create(
-            user=request.user, ordered_date=ordered_date)
+            user=request.user, start_date=ordered_date)
         order.items.add(order_item)
         messages.success(request, "1 " + item.title + " was added to your cart.")
-    return redirect("allcocktails")
+        return redirect("allcocktails")
 
 
 @login_required(login_url="/accounts/login")
@@ -133,7 +141,8 @@ def add_to_cart_summary(request, cocktail_id):
     else:
         ordered_date = timezone.now()
         order = Order.objects.create(
-            user=request.user, ordered_date=ordered_date)
+            user=request.user, start_date=ordered_date)
+        order.items.delete(all)
         order.items.add(order_item)
         messages.info(request, "1 " + item.title + " was added to your cart.")
         return redirect("order-summary")
@@ -226,8 +235,7 @@ class CheckoutView(LoginRequiredMixin, View):
                 last_name = form.cleaned_data.get('last_name')
                 email = form.cleaned_data.get('email')
                 street_address = form.cleaned_data.get('street_address')
-                appartment_address = form.cleaned_data.get(
-                    'appartment_address')
+                appartment_address = form.cleaned_data.get('appartment_address')
                 zip = form.cleaned_data.get('zip')
                 phone = form.cleaned_data.get('phone')
                 # TODO: add functionality for these fields
@@ -292,15 +300,17 @@ class PaymentView(LoginRequiredMixin, View):
             payment.mollie_payment_id = charge.id
             payment.user = self.request.user
             payment.amount = order.total
+            payment.timestamp = timezone.now()
             payment.save()
             # assign the payment to the order
             order_items=order.items.all()
             order_items.update(ordered = True)
+            order_items.update(ordered_timestamp = payment.timestamp)
             for item in order_items:
                 item.save()
             order.charge = payment
             order.ordered = True
-            order.items.delete()
+            order.ordered_date = payment.timestamp
             order.save()
             messages.success(self.request, "Your order was succesful!")
             return redirect(charge.checkout_url)
