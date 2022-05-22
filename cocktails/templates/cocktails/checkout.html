@@ -14,8 +14,6 @@
   <meta name="generator" content="Hugo 0.88.1">
   <title>Uw Rekening</title>
 
-  <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/checkout/">
-
   <!-- Bootstrap core CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -63,6 +61,10 @@
       color: rgb(200, 99, 99);
     }
 
+    .warningtext {
+      color: rgb(200, 99, 99);
+    }
+
     .bd-placeholder-img {
       font-size: 1.125rem;
       text-anchor: middle;
@@ -92,8 +94,9 @@
       <div class="py-3 text-center">
         <h1 class="bisque ganton display-1">Levering</h2>
           <p class="lead">Je kan de cocktails bijna proeven!</p>
+          <br />
+        <hr>
       </div>
-      <br/>
       <!--Block on the right-->
       <!-- Your Cart -->
       {% if request.user.is_authenticated %}
@@ -157,6 +160,9 @@
                 {% endfor %}
               </div>
             </div>
+            <hr>
+            <h4 class="mb-3">Leveringstermijn</h4>
+            <p class="text-start"> Wij contacteren u zo snel mogelijk om de levertermijn mee te delen.<br/><b><u>OPGELET:</u></b> Afhankelijk van de omstandigheden kan dit soms tot enkele dagen duren.<br/>Bedankt voor uw begrip!</br.></p>
             <hr class="my-4">
             <h4 class="mb-3">Uw gegevens</h4>
             <div class="row g-3">
@@ -215,8 +221,20 @@
                 </div>
               </div>
               <!--Radio buttons shipping address-->
+              <!--Radio button 18+-->
               <hr class="my-4">
-              <div id="showOnDelivery1" style="display:none">
+              <div id="agecheck">
+                <h4 class="mb-3">Leeftijdscontrole</h4>
+                <div class="col-lg-12 text-start">
+                  {{form.adult}}
+                  <label class="form-label">Ik ben ouder dan 18 jaar</label>
+                  <div id="adult" class="invalid-feedback">
+                    U moet ouder dan 18 jaar zijn om online alcohol te mogen kopen.
+                  </div>
+                </div>
+                <hr class="my-4">
+              </div>
+              <!--<div id="showOnDelivery1" style="display:none">
                 <div class="container text-start form-check">
                   <input {% if form.same_billing_address.value %} checked {% endif %} type="checkbox"
                     class="form-check-input" name="same_billing_address" id="same-address">
@@ -231,11 +249,11 @@
                 name="save_info" id="save-info">
               <label class="form-check-label" for="save-info">Bewaar deze informatie voor de volgende keer</label>
             </div>
-            <!--Payment Block
+            Payment Block
             <hr class="my-4">
             <h4 class="mb-3">Payment</h4>
-            <!--Payment Methods
-            <!--<div class="my-3">
+            Payment Methods
+            <div class="my-3">
               {% for value, name in form.fields.payment_option.choices %}
               <div class="container text-start form-check">
                 <input id="{{name}}" name="payment_option" type="radio" value={{value}} class="form-check-input"
@@ -244,26 +262,25 @@
               </div>
               {% endfor %}
             </div>-->
-            <!--Payment Details-->
-            <button id="back" onclick="goBack()" type="button" class="w-30 btn btn-primary btn-lg m-3">Terug naar winkelwagentje</button>
-            <button id="next" class="w-30 btn btn-danger btn-lg btncheck m-3" type="submit">Verder naar betaling</button>
+              <!--Payment Details-->
+              <div class="row pb-3">
+                <button id="back" onclick="goBack()" type="button" class="col-5 btn btn-primary btn-lg">Terug
+                  naar uw wagentje</button>
+                <div class="col-2"></div>
+                <button id="next" type="submit" class="col-5 btn btn-danger btn-lg">Verder naar
+                  betaling</button>
+              </div>
           </form>
         </div>
       </div>
     </main>
   </div>
 
-
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-    crossorigin="anonymous"></script>
-
   <script src="https://getbootstrap.com/docs/4.5/examples/checkout/form-validation.js"></script>
   <script type="text/javascript">
     function yesnoCheck() {
       if (document.getElementById("D").checked) {
         document.getElementById('showOnDelivery').style.display = 'block';
-        document.getElementById('showOnDelivery1').style.display = 'block';
         document.getElementById('id_street_address').setAttribute('required', '');
         document.getElementById('id_zip').setAttribute('required', '');
         document.getElementById('Delivery').style.display = 'block';
@@ -272,7 +289,6 @@
       }
       else {
         document.getElementById('showOnDelivery').style.display = 'none';
-        document.getElementById('showOnDelivery1').style.display = 'none';
         document.getElementById('id_street_address').removeAttribute('required', '');
         document.getElementById('id_zip').removeAttribute('required', '');
         document.getElementById('Delivery').style.display = 'none';
@@ -323,7 +339,6 @@
           }
         }
         const message = "Form has been refilled with saved data!";
-        displayAlert(message);
       }
     };
     document.onload = populateForm(); // populate the form when the document is loaded

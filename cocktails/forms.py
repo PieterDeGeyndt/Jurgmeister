@@ -1,10 +1,6 @@
 from socket import fromshare
 from django import forms
-
-PAYMENT_CHOICES = (
-    ('C', 'Credit Card'),
-    ('D', 'Debit Card'),
-)
+from django.contrib.auth.forms import AuthenticationForm, UsernameField
 
 ZIP_CHOICES = (
     ('', 'Kies je gemeente'),
@@ -61,6 +57,8 @@ class CheckoutForm(forms.Form):
         'class': 'form-select',
     }), choices=ZIP_CHOICES)
 
+    adult = forms.BooleanField(required=True)
+
     same_billing_address = forms.BooleanField(required=False)
 
     save_info = forms.BooleanField(required=False)
@@ -71,3 +69,23 @@ class CheckoutForm(forms.Form):
             for field_name in ['street_address', 'zip']:
                 if field_name in self.errors:
                     del self.errors[field_name]
+    
+    def __init__(self, *args, **kwargs):
+        super(CheckoutForm, self).__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.error_messages = {'required':'Het veld {fieldname} is verplicht'.format(
+                fieldname=field.label)}
+
+class UserLoginForm(AuthenticationForm):
+    def __init__(self, *args, **kwargs):
+        super(UserLoginForm, self).__init__(*args, **kwargs)
+
+    username = UsernameField(widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': '', 'id': 'hello'}))
+    password = forms.CharField(widget=forms.PasswordInput(
+        attrs={
+            'class': 'form-control',
+            'placeholder': '',
+            'id': 'hi',
+        }
+))

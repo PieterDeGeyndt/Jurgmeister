@@ -1,5 +1,5 @@
 from django import template
-from cocktails.models import Order,OrderItem
+from cocktails.models import OrderItem
 
 register= template.Library()
 

@@ -1,75 +1,75 @@
 <!doctype html>
 <html lang="en" class="h-100">
-    <head>
-        {% load static %}
-        {% load cart_template_tags %}
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-        <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-        <meta name="generator" content="Hugo 0.88.1">
-        <title>Jurgmeister Cocktails</title>
 
-        <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/cover/">
+<head>
+    {% load static %}
+    {% load cart_template_tags %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.88.1">
+    <title>Jurgmeister Cocktails</title>
 
-        
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/cover/">
 
-        <!-- Bootstrap core CSS -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
-         <!-- Bootstrap Icons -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">  
-        
-        <!-- Favicons -->
-        <link rel="apple-touch-icon" href="/docs/5.1/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
-        <link rel="icon" href="/docs/5.1/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
-        <link rel="icon" href="/docs/5.1/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
-        <link rel="manifest" href="/docs/5.1/assets/img/favicons/manifest.json">
-        <link rel="mask-icon" href="/docs/5.1/assets/img/favicons/safari-pinned-tab.svg" color="#7952b3">
-        <link rel="icon" href="/docs/5.1/assets/img/favicons/favicon.ico">
-        <meta name="theme-color" content="#7952b3">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <!--FontAwesome Icons-->
+    <script src="https://kit.fontawesome.com/6d7547a687.js" crossorigin="anonymous"></script>
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="/docs/5.1/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" href="/docs/5.1/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="/docs/5.1/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="mask-icon" href="/docs/5.1/assets/img/favicons/safari-pinned-tab.svg" color="#7952b3">
+    <link rel="icon" href="/docs/5.1/assets/img/favicons/favicon.ico">
+    <meta name="theme-color" content="#7952b3">
 
-        <style>
-        
+    <style>
         /*Colors*/
+        .bgbisque {
+            background-color: bisque;
+        }
+
         .bisque {
-            color:bisque;
-        }
-
-        a {
-            text-decoration: none;
-            color:bisque;
-        }
-
-        a:link, a:visited {
             color: bisque;
-        }
-        
-        a:hover {
-            color: rgb(231, 177, 76);
         }
 
         /* Footer */
+        .footer {
+            font-size: small;
+            color: whitesmoke;
+        }
+
+        .footerlogo {
+            max-height: 35px
+        }
+
         .footera {
             text-decoration: none;
-            color:rgb(255, 255, 255)
+            color: bisque;
+
         }
 
         .footera:link {
-            color: rgb(255, 255, 255);
+            color: bisque;
         }
-        
+
         .footera:hover {
-            color: rgb(255, 255, 255);
+            color: bisque;
         }
 
         .footera:visited {
-            color: rgb(255, 255, 255);
+            color: bisque;
         }
 
         /* Bootstrap */
         .bd-placeholder-img {
-            font-size: 1.125rem;
+            font-size: 1.5rem;
             text-anchor: middle;
             -webkit-user-select: none;
             -moz-user-select: none;
@@ -78,43 +78,59 @@
 
         @media (min-width: 768px) {
             .bd-placeholder-img-lg {
-            font-size: 3.5rem;
+                font-size: 3.5rem;
             }
-        }
-        
-        /* Jurgmeister logo linksboven */
-        .navbarlogo {
-            max-height:75px;
-            max-width: 75px;
-            padding-inline: 10px;
         }
 
         /*Jurgmeister company name fonts*/
-        @font-face{
-            font-family:'myGantonFont';
-            src:url("/static/fonts/Ganton.otf");
+        @font-face {
+            font-family: 'myGantonFont';
+            src: url("/static/fonts/Ganton.otf");
         }
 
-        @font-face{
-            font-family:'myPresidenteFont';
-            src:url("/static/fonts/Presidente.ttf");
+        @font-face {
+            font-family: 'myPresidenteFont';
+            src: url("/static/fonts/Presidente.ttf");
         }
+
+        /*User in navbar*/
+        .user {
+            font-family: 'myPresidenteFont';
+            font-size: 1.5rem;
+            position: absolute;
+            text-align: center;
+        }
+
+        /*NAVBAR COMPANY LOGO & NAME*/
+        /* Jurgmeister logo navbar */
+        .navbarlogo {
+            max-height: 75px;
+            max-width: 75px;
+            position: relative;
+        }
+
 
         /*Jurgmeister Cocktails in navbar*/
         .jurgmeister {
             font-family: 'myGantonFont';
-            font-size: 40px;
-            position:relative;
-            text-align:center;
+            font-size: 1.5rem;
+            position: absolute;
+            left: 5rem;
+            top: -0.5rem;
+            text-align: center;
+            display: none;
+            padding-left: 1rem;
         }
 
         .cocktails {
             font-family: 'myPresidenteFont';
-            font-size: 40px;
+            font-size: 1.5rem;
             position: absolute;
-            left:150px;
-            top: 40px;
-            color:bisque;
+            left: 150px;
+            top: 1.5rem;
+            color: bisque;
+            display: none;
+            padding-left: 1rem;
         }
 
         /*Voor Jurgmeister Cocktails logo center page*/
@@ -128,75 +144,165 @@
         }
 
         /*Kleur van active link in navbar menu*/
-        #navbarNavAltMarkup > .navbar-nav > .active {
-            color:bisque;
+        #navbarNavAltMarkup>.navbar-nav>.active {
+            color: bisque;
         }
 
-        </style>
-    </head>
-    <body class="cover-container d-flex h-100 w-100 text-center text-white bg-dark p-0 mx-auto flex-column">
-        {% url 'home' as home_url %}
-        {% url 'allservices' as allservices_url %}
-        {% url 'allcocktails' as allcocktails_url %}
-        {% url 'instagram' as instagram_url %}
-        {% url 'yourcart' as yourcart_url %}
-        <header class="mb-auto mt-0">
-            <nav class="navbar navbar-expand-lg navbar-dark bg-black">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="{% url 'home'%}">
-                        <img class="navbarlogo" src="{% static 'Logo.jpg'%}">
-                        <span class="jurgmeister">Jurgmeister</span>
-                        <span class="cocktails">Cocktails</span></a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
-                        aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                        <div class="navbar-nav ms-auto">
-                            <a class="ganton nav-link {% if request.path == allservices_url %} active {%endif%}"
-                                href="{% url 'allservices'%}">Services</a>
-                            <a class="ganton nav-link {% if request.path == allcocktails_url %} active {%endif%}"
-                                href="{% url 'allcocktails'%}">Cocktails</a>
-                            <a class="ganton nav-link {% if request.path == instagram_url %} active {%endif%}"
-                                href="{% url 'instagram'%}"><i class="bi bi-instagram"></i></a>
-                            <a class="ganton nav-link" target="_blank"
-                                href="https://www.facebook.com/profile.php?id=100069179911878"><i
-                                    class="bi bi-facebook"></i></a>
-                            {% if request.user.is_authenticated %}
-                            <a class="ganton nav-link" href="{% url 'account_logout' %}">Logout</a>
-                            {% else %}
-                            <a class="ganton nav-link" href="{% url 'account_login' %}">Login</a>
-                            {% endif %}
-                            {% if request.user.is_authenticated %}
-                            <a class="px-5 nav-link {% if request.path == yourcart_url %} active {%endif%}" href="{% url 'order-summary'%}">
-                                <i class="bi owncart bi-cart-fill"></i>
-                                <span class="position-absolute translate-middle badge rounded-pill bg-danger">{{request.user|cart_item_count}}</span>
-                            </a>
-                            {% endif %}
-                        </div>
+        /*Cart*/
+        .owncart {
+            font-size: 1.5rem;
+            color: white;
+            margin-right: 0rem;
+        }
+
+        .badge {
+            font-size: 1rem;
+            margin-right: 0rem;
+        }
+
+        .carta {
+            margin-right: 0rem;
+        }
+
+        /*Discount Price*/
+        .discount {
+            color: green;
+            font-size: larger;
+        }
+
+        @media (min-width: 544px) {
+
+            .jurgmeister,
+            .cocktails,
+            .user {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (min-width: 768px) {
+
+            .jurgmeister,
+            .cocktails,
+            .user {
+                font-size: 2rem;
+            }
+        }
+
+        @media (min-width: 992px) {
+
+            .jurgmeister,
+            .cocktails,
+            .user {
+                font-size: 2.5rem;
+            }
+
+            .user {
+                position: absolute;
+                margin-left: 40vw;
+            }
+
+            .owncart,
+            .carta {
+                margin-right: 0rem;
+            }
+        }
+
+        @media (min-width: 1200px) {
+
+            .jurgmeister,
+            .cocktails,
+            .user {
+                font-size: 3rem;
+            }
+
+            .jurgmeister,
+            .cocktails {
+                display: block;
+            }
+
+            .owncart,
+            .carta {
+                margin-right: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body class="cover-container d-flex h-100 w-100 text-center text-white bg-dark p-0 mx-auto flex-column">
+    {% url 'home' as home_url %}
+    {% url 'allservices' as allservices_url %}
+    {% url 'allcocktails' as allcocktails_url %}
+    {% url 'instagram' as instagram_url %}
+    {% url 'yourcart' as yourcart_url %}
+    {% url 'order-summary' as ordersummary_url %}
+    {% url 'checkout' as checkout_url %}
+    {% url 'payment' as payment_url %}
+    {% url 'info' as info_url %}
+    <header class="mb-auto mt-0">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-black">
+            <div class="container-fluid col-12">
+                <a class="navbar-brand" href="{% url 'home'%}">
+                    <img class="navbarlogo" src="{% static 'LogoTrans.png'%}">
+                    <div class="jurgmeister">Jurgmeister</div>
+                    <div class="cocktails">Cocktails</div>
+                </a>
+                {% if request.user.is_authenticated %}
+                <div class="user">Welkom {{request.user}}</div>
+                {% endif %}
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav ms-auto">
+                        {% if request.user.is_authenticated%}
+                        {% if request.path != allcocktails_url or request.path != allservices_url or request.path != instagram_url or request.path != info_url %}
+                        <a class="carta px-1 nav-link {% if request.path == yourcart_url %} active {%endif%}"
+                            href="{% url 'order-summary'%}">
+                            <i class="owncart fa-solid fa-martini-glass"></i>
+                            <span
+                                class="position-absolute translate-middle badge rounded-pill bg-danger">{{request.user|cart_item_count}}</span>
+                        </a>
+                        {% endif %}
+                        {% endif %}
+                        <a class="ganton nav-link {% if request.path == allservices_url %} active {%endif%}"
+                            href="{% url 'allservices'%}">Aanbod</a>
+                        <a class="ganton nav-link {% if request.path == allcocktails_url or request.path == ordersummary_url or request.path == checkout_url or request.path == payment_url %} active {%endif%}"
+                            href="{% url 'allcocktails'%}">Cocktails</a>
+                        <a class="ganton nav-link {% if request.path == info_url %} active {%endif%}"
+                            href="{% url 'info'%}">Info</a>
+                        {% if request.user.is_authenticated%}
+                        <a class="ganton nav-link" href="{% url 'account_logout' %}">Afmelden</a>
+                        {% else %}
+                        <a class="ganton nav-link {% if request.path == home_url %} active {%endif%}"
+                            href="{% url 'account_login' %}">Aanmelden</a>
+                        {% endif %}
                     </div>
                 </div>
-            </nav>
-            {% if messages %}
-            {% for message in messages %}
-            <div class="alert alert-{{ message.tags }}" role="alert">
-                {{ message }}
             </div>
-            {% endfor %}
-            {% endif %}
-        </header>
-        {% block content %}
-        {% endblock %}
-        <footer class="mt-auto text-white">
-            <p class="mb-1 text-center">&copy; <a class="footera" target="_blank"
-                    href="http://www.test2impress.be">Test2Impress.be</a> - {% now "Y" %}</p>
-        </footer>
-    
-        <!-- JavaScript Bundle with Popper -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-            crossorigin="anonymous"></script>
-    </body>
-    
-    </html>
+        </nav>
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}" role="alert">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+    </header>
+    {% block content %}
+    {% endblock %}
+    <footer class="footer bg-black mt-auto">
+        <p class="mb-1 text-center">&copy;
+            <a class="footera" target="_blank" href="http://www.test2impress.be"><img class="footerlogo"
+                    src="{% static 'Logo_Black.jpg'%}"></a>{% now "Y" %}
+        </p>
+    </footer>
+
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

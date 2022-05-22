@@ -7,31 +7,36 @@
   {% load static %}
   <style>
     .backgroundcentertext {
-        background-color: rgba(255, 255, 255, 0.651);
-        align-self: center;
+      background-color: rgba(255, 255, 255, 0.651);
+      align-self: center;
     }
 
     .backgroundcards {
-          background-color: rgb(255, 255, 255);
+      background-color: rgb(255, 255, 255);
     }
 
     a {
-            text-decoration: none;
-            color:rgb(0, 0, 0)
-        }
+      text-decoration: none;
+      color: rgb(0, 0, 0)
+    }
 
-    a:link, a:visited {
-            color: rgb(0, 0, 0);
-        }
-        
+    a:link,
+    a:visited {
+      color: rgb(0, 0, 0);
+    }
+
     a:hover {
-            color: rgb(0, 0, 0);
-        }
+      color: rgb(0, 0, 0);
+    }
 
     .cardimage {
-        height:45vh;
-        object-fit:cover;
+      height: 45vh;
+      object-fit: cover;
     }
+
+    .icon {
+            font-size: 75px;
+        }
   </style>
 </head>
 
@@ -40,11 +45,15 @@
     <section class="py-3 text-white text-center container">
       <div class="row py-lg-5">
         <div class="col-lg-6 col-md-8 mx-auto">
-          <h1 class="fw-light">Wat bieden wij aan?</h1><br/>
-          <p class="lead">Wij bieden verschillende diensten aan. Kijk hieronder en mail ons gerust voor meer info. <br/>
-          <p>
-            <a href="mailto:pieter@test2impress.be" class="btn btn-primary my-2">E-mail ons!</a> 
-          </p>
+          <h1 class="fw-light">Wat bieden wij aan?</h1><br />
+          <p class="lead">Wij bieden verschillende diensten aan. Contacteer ons gerust voor meer info via Instagram, Facebook of e-mail.
+            <br/>
+            <br/>
+            <a class="ganton mx-5" href="{% url 'instagram'%}"><i class="bisque bi icon bi-instagram"></i></a>
+            <a class="ganton bisque mx-5" target="_blank"
+              href="https://www.facebook.com/profile.php?id=100069179911878"><i
+                class="bisque bi icon bi-facebook"></i></a>
+            <a href="mailto:bestellingen@jurgmeister.be" class="ganton bisque mx-5"><i class="bisque bi icon bi-envelope"></i></a>
         </div>
       </div>
     </section>
@@ -55,7 +64,8 @@
           {% for service in services.all %}
           <div class="col">
             <a class="card backgroundcards shadow h-100" href="{% url 'servicedetail' service.id %}">
-              <img class="cardimage" src="{{ service.image.url }}"><title>Placeholder</title></img>
+              <img class="cardimage" src="{{ service.image.url }}">
+              <title>Placeholder</title></img>
               <div class="card-body">
                 <h2 class="card-title"> {{service.title}}</h2>
                 <p class="card-text">{{ service.body }}</p>
@@ -72,5 +82,6 @@
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
     crossorigin="anonymous"></script>
 </body>
+
 </html>
 {% endblock %}

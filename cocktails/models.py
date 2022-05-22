@@ -90,6 +90,7 @@ class BillingAddress(models.Model):
     street_address = models.CharField(max_length=100)
     appartment_address=models.CharField(max_length=100)
     zip=models.CharField(max_length=100)
+    adult=models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.username

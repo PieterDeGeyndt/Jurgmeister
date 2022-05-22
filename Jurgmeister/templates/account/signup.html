@@ -5,10 +5,23 @@
 {% block head_title %}{% trans "Signup" %}{% endblock %}
 
 {% block content %}
-<main class="bg-dark">
-<h1 class="bisque">{% trans "Sign Up" %}</h1>
+<style>
+  .btnbg {
+      background-color: rgb(17, 15, 12);
+    }
 
-<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+    .btntext {
+      color: bisque
+    }
+</style>
+<!-- Bootstrap core CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+<main class="bg-dark">
+<h1 class="bisque ganton display-1">{% trans "Creëer account" %}</h1>
+
+<p>{% blocktrans %}Heb je al een account? Ga dan naar <a href="{{ login_url }}">aanmelden</a>.{% endblocktrans %}</p>
 
 <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
   {% csrf_token %}
@@ -16,7 +29,7 @@
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
   {% endif %}
-  <button class="btn-primary" type="submit">{% trans "Sign Up" %} </button>
+  <button class="btn-lg ganton btnbg btntext" type="submit">{% trans "Aanmaken" %} </button>
 </form>
 </main>
 {% endblock %}

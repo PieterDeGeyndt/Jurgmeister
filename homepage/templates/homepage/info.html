@@ -17,21 +17,26 @@
 
         a {
             text-decoration: none;
-            color: rgb(0, 0, 0)
+            color: rgb(255, 255, 255)
         }
 
         a:link,
         a:visited {
-            color: rgb(0, 0, 0);
+            color: rgb(255, 255, 255);
         }
 
         a:hover {
-            color: rgb(0, 0, 0);
+            color: rgb(255, 255, 255);
         }
 
         .cardimage {
             height: 45vh;
             object-fit: cover;
+            align-self: flex-start;
+        }
+
+        .icon {
+            font-size: 75px;
         }
     </style>
 </head>
@@ -40,23 +45,30 @@
     <main class="bg-dark">
         <section class="py-3 text-white text-center container">
             <div class="row py-lg-5">
-                <div class="col-lg-6 col-md-8 mx-auto">
+                <div class="col-lg-4">
+                    <img class="cardimage" src="{% static 'LogoTrans.png' %}">
+                    <a class="ganton mx-5" href="{% url 'instagram'%}"><i class="bisque bi icon bi-instagram"></i></a>
+                    <a class="ganton bisque mx-5" target="_blank"
+                        href="https://www.facebook.com/profile.php?id=100069179911878"><i
+                            class="bisque bi icon bi-facebook"></i></a>
+                </div>
+                <div class="col-lg-8 mx-auto">
                     <h1 class="fw-light">Wie is <span class="bisque">Jurgmeister Cocktails</span>?</h1><br />
-                    <p class="lead"><span class="bisque">Jurgmeister Cocktails</span>: dat is Jurgen en zijn cocktails! Jurgen was altijd al
+                    <p class="lead">Jurgmeister Cocktails: dat is Jurgen en zijn cocktails!
+                        Jurgen was altijd al
                         geïnteresseerd in cocktails en maakte er zijn bijberoep van na een aantal workshops voor
                         vrienden tijdens Corona
                     </p>
-                </div>
-            </div>
-        </section>
-        <div class="album">
-            <div class="container">
-                <div class="row">
-                    <div class="col">
-                        <img class="cardimage" src="{% static 'Welcome.PNG' %}">
-                        <title>Placeholder</title></img>
+                    <div class="row container">
+                        <div class="col-12">
+                            <img class="cardimage" src="{% static 'Welcome.PNG' %}">
+                            <title>Placeholder</title></img>
+                        </div>
                     </div>
                 </div>
+            </div>
+            </div>
+        </section>
     </main>
     <!-- JavaScript Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"

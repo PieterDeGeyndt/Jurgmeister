@@ -23,8 +23,7 @@ from django.core.mail import send_mail
 def allcocktails(request):
     cocktails = Cocktails.objects
     return render(request, 'cocktails/allcocktails.html', {'cocktails': cocktails})
-
-
+    
 def detail(request, cocktail_id):
     detailcocktail = get_object_or_404(Cocktails, pk=cocktail_id)
     return render(request, 'cocktails/detail.html', {'cocktail': detailcocktail})
@@ -49,12 +48,12 @@ def add_to_cart(request, cocktail_id):
             #if it is than augment the quantity with 1
             order_item.quantity += 1
             order_item.save()
-            messages.success(request, "1 " + item.title + " was added to your cart. You now have " + str(order_item.quantity) + " " + item.title + "'s in your cart")
+            messages.success(request, "1 " + item.title + " is aan je wagentje toegevoegd. Je hebt nu " + str(order_item.quantity) + " " + item.title + "'s in je wagentje.")
             return redirect("allcocktails")
         #if the item is not yet in the order than add the item to the order
         else:
             order.items.add(order_item)
-            messages.success(request, "1 " + item.title + " was added to your cart. You now have " + str(order_item.quantity) + " " + item.title + "'s in your cart")
+            messages.success(request, "1 " + item.title + " is aan je wagentje toegevoegd. Je hebt nu " + str(order_item.quantity) + " " + item.title + "'s in je wagentje.")
             return redirect("allcocktails")
     #if there's no unordered order for that user
     else:
@@ -62,7 +61,7 @@ def add_to_cart(request, cocktail_id):
         order = Order.objects.create(
             user=request.user, start_date=ordered_date)
         order.items.add(order_item)
-        messages.success(request, "1 " + item.title + " was added to your cart.")
+        messages.success(request, "1 " + item.title + " werd aan je wagentje toegevoegd.")
         return redirect("allcocktails")
 
 
@@ -86,21 +85,21 @@ def remove_from_cart(request, cocktail_id):
             if order_item.quantity > 1:
                 order_item.quantity -= 1
                 order_item.save()
-                messages.warning(request, "1 " + item.title + " was removed. You now have " + str(order_item.quantity) + " " + item.title + "'s in your cart")
+                messages.warning(request, "1 " + item.title + " werd verwijderd. Je hebt nu " + str(order_item.quantity) + " " + item.title + "'s in je wagentje.")
                 return redirect("allcocktails")
             # if only 1, then delete the item from the cart.
             else:
                 order_item.delete()
-                messages.info(request, "The last " + item.title + " was removed from your cart.")
+                messages.info(request, "De laatste " + item.title + " werd verwijderd uit je wagentje.")
                 return redirect("allcocktails")
 
         else:
             # add a message saying the order does not contain the item
-            messages.warning(request, "There is no "+ item.title +" in your cart.")
+            messages.warning(request, "Er is geen "+ item.title +" in je wagentje.")
             return redirect("allcocktails")
     else:
         # add a message saying the user does not have an order
-        messages.warning(request, "You do not have an active order. Please add cocktails to your cart firs.")
+        messages.warning(request, "Je hebt geen actieve bestelling. Voeg aub eerst cocktails toe aan je wagentje.")
         return redirect("allcocktails")
 
 # ORDER-SUMMARY
@@ -113,7 +112,7 @@ class OrderSummaryView(LoginRequiredMixin, View):
             }
             return render(self.request,'cocktails/order_summary.html', context)
         except ObjectDoesNotExist:
-            messages.warning(self.request, "You do not have an active order yet, please add cocktails to your cart first.")
+            messages.warning(self.request, "Je hebt nog geen actieve bestelling. Voeg hieronder eerst cocktails toe aan je wagentje aub.")
             return redirect("allcocktails")
 
 
@@ -132,10 +131,10 @@ def add_to_cart_summary(request, cocktail_id):
         if order.items.filter(item__pk=item.pk).exists():
             order_item.quantity += 1
             order_item.save()
-            messages.info(request, "1 " + item.title + " was added to your cart.")
+            messages.info(request, "1 " + item.title + " werd aan je wagentje toegevoegd.")
             return redirect("order-summary")
         else:
-            messages.info(request, "1 " + item.title + " was added to your cart.")
+            messages.info(request, "1 " + item.title + " werd aan je wagentje toegevoegd.")
             order.items.add(order_item)
             return redirect("order-summary")
     else:
@@ -144,7 +143,7 @@ def add_to_cart_summary(request, cocktail_id):
             user=request.user, start_date=ordered_date)
         order.items.delete(all)
         order.items.add(order_item)
-        messages.info(request, "1 " + item.title + " was added to your cart.")
+        messages.info(request, "1 " + item.title + " werd aan je wagentje toegevoegd.")
         return redirect("order-summary")
 
 
@@ -169,22 +168,22 @@ def remove_from_cart_summary(request, cocktail_id):
                 order_item.quantity -= 1
                 order_item.save()
                 messages.info(
-                    request, "1 " + item.title + " was added to your cart.")
+                    request, "1 " + item.title + " werd uit je wagentje verwijderd.")
                 return redirect("order-summary")
             # if only 1, then delete the item from the cart.
             else:
                 order_item.delete()
                 messages.info(
-                    request, "The last " + item.title + " was removed from your cart.")
+                    request, "De laatste " + item.title + " werd uit je wagentje verwijderd.")
                 return redirect("order-summary")
 
         else:
             # add a message saying the order does not contain the item
-            messages.info(request, "A " + item.title + " is not in your cart or you don't have an active order yet, so it can't be removed.")
+            messages.info(request, "Geen " + item.title + " in je wagentje of je hebt nog geen actieve bestelling.")
             return redirect("order-summary")
     else:
         # add a message saying the user does not have an order
-        messages.info(request, "You do not have an active order. Please add cocktails to your cart first.")
+        messages.info(request, "Je hebt geen actieve bestelling. Voeg aub eerst cocktails toe aan je wagentje.")
         return redirect("order-summary")
 
 
@@ -202,11 +201,11 @@ def empty_cart(request, cocktail_id):
     )[0]
     if order_qs.exists():
         order_item.delete()
-        messages.info(request, "The last " + item.title + " was removed from your cart.")
+        messages.info(request, "De laatste " + item.title + " werd uit je wagentje verwijderd.")
         return redirect("order-summary")
     else:
         # add a message saying the user does not have an order
-        messages.info(request, "You do not have an active order. Please add cocktails to your cart first.")
+        messages.info(request, "Je hebt geen actieve bestelling. Voeg aub eerst cocktails toe aan je wagentje.")
         return redirect("order-summary")
 
 # CheckoutForm
@@ -222,7 +221,7 @@ class CheckoutView(LoginRequiredMixin, View):
             }
             return render(self.request, 'cocktails/checkout.html', context)
         except ObjectDoesNotExist:
-            messages.warning(self.request, "You do not have an active order. Please return to Cocktails and add cocktails to your cart first.")
+            messages.warning(self.request, "Je hebt geen actieve bestelling. Voeg aub eerst cocktails toe aan je wagentje.")
             return redirect("order-summary")
 
     def post(self, *args, **kwargs):
@@ -238,9 +237,6 @@ class CheckoutView(LoginRequiredMixin, View):
                 appartment_address = form.cleaned_data.get('appartment_address')
                 zip = form.cleaned_data.get('zip')
                 phone = form.cleaned_data.get('phone')
-                # TODO: add functionality for these fields
-                # same_billing_address = form.cleaned_data.get('same_billing_address')
-                # save_info = form.cleaned_data.get('save_info')
                 billing_address = BillingAddress(
                     user=self.request.user,
                     first_name=first_name,
@@ -276,7 +272,7 @@ class PaymentView(LoginRequiredMixin, View):
             }
             return render(self.request, "cocktails/payment.html", context)
         except ObjectDoesNotExist:
-            messages.warning(self.request, "You do not have an active order. Please return to the site and add cocktails to your cart first.")
+            messages.warning(self.request, "Je hebt geen actieve bestelling. Voeg aub eerst cocktails toe aan je wagentje.")
             return redirect("cocktails/checkout.html")
 
     def post(self, *args, **kwargs):
@@ -292,7 +288,7 @@ class PaymentView(LoginRequiredMixin, View):
                     'value': value
                 },
                 'description': "My 1st payment with Mollie",
-                'redirectUrl': 'https://www.test2impress.be',
+                'redirectUrl': 'https://www.jurgmeister.be/cocktails/confirmation',
                 'webhookUrl': '',
             })
             # create the payment
@@ -312,17 +308,25 @@ class PaymentView(LoginRequiredMixin, View):
             order.ordered = True
             order.ordered_date = payment.timestamp
             order.save()
-            messages.success(self.request, "Your order was succesful!")
+            messages.success(self.request, "Je order was succesvol!")
             return redirect(charge.checkout_url)
 
         except ObjectDoesNotExist:
-            messages.error(self.request, "You do not have an active order")
+            messages.error(self.request, "Je hebt geen actieve bestelling.")
             return redirect("order-summary")
         #excepts toevoegen voor mollie errors + back in browser
 
 def your_account(request):
     return redirect('/cocktails')
 
-
-def confirmation(request):
-    return redirect("confirmation")
+class ConfirmationView(LoginRequiredMixin,View):    
+    def get(self,*args,**kwargs):
+        try:
+            order = Order.objects.get(user=self.request.user, ordered=True)
+            context = {
+                'order': order
+            }
+            return render(self.request, "cocktails/confirmation.html", context)
+        except ObjectDoesNotExist:
+            messages.warning(self.request, "Er liep iets fout bij de bestelling. Stuur ons een mailtje op info@jurgmeister.be en we brengen het zo snel mogelijk in orde.")
+            return redirect("cocktails/confirmation.html")
