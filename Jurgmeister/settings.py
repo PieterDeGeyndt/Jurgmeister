@@ -160,9 +160,9 @@ AUTHENTICATION_BACKENDS = (
 
 SITE_ID = 1
 
+MOLLIE_SECRET_KEY = 'test_wxgbWFHcz9z7CMw7APmHNzJpQwsF5d'
+
 try:
     from .local_settings import *
 except ImportError:
     pass
-
-MOLLIE_SECRET_KEY = 'test_wxgbWFHcz9z7CMw7APmHNzJpQwsF5d'
