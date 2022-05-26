@@ -266,10 +266,10 @@
                         </a>
                         {% endif %}
                         {% endif %}
-                        <a class="ganton nav-link {% if request.path == allservices_url %} active {%endif%}"
-                            href="{% url 'allservices'%}">Aanbod</a>
                         <a class="ganton nav-link {% if request.path == allcocktails_url or request.path == ordersummary_url or request.path == checkout_url or request.path == payment_url %} active {%endif%}"
                             href="{% url 'allcocktails'%}">Cocktails</a>
+                        <a class="ganton nav-link {% if request.path == allservices_url %} active {%endif%}"
+                            href="{% url 'allservices'%}">& More</a>
                         <a class="ganton nav-link {% if request.path == info_url %} active {%endif%}"
                             href="{% url 'info'%}">Info</a>
                         {% if request.user.is_authenticated%}
