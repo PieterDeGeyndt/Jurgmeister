@@ -224,6 +224,22 @@
             .carta {
                 margin-right: 1rem;
             }
+
+            .pripol,
+            .pripol:visited,
+            .pripol:link,
+            .pripol:hover {
+                text-decoration: none;
+                color: bisque;
+            }
+
+            .btnbg {
+                background-color: rgb(17, 15, 12);
+            }
+
+            .btntext {
+                color: bisque;
+            }
         }
     </style>
 </head>
@@ -257,14 +273,14 @@
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav ms-auto">
                         {% if request.user.is_authenticated%}
-                        {% if request.path != allcocktails_url or request.path != allservices_url or request.path != instagram_url or request.path != info_url %}
+                            {% if request.path != allcocktails_url or request.path != allservices_url or request.path != instagram_url or request.path != info_url %}
                         <a class="carta px-1 nav-link {% if request.path == yourcart_url %} active {%endif%}"
                             href="{% url 'order-summary'%}">
                             <i class="owncart fa-solid fa-martini-glass"></i>
                             <span
                                 class="position-absolute translate-middle badge rounded-pill bg-danger">{{request.user|cart_item_count}}</span>
                         </a>
-                        {% endif %}
+                            {% endif %}
                         {% endif %}
                         <a class="ganton nav-link {% if request.path == allcocktails_url or request.path == ordersummary_url or request.path == checkout_url or request.path == payment_url %} active {%endif%}"
                             href="{% url 'allcocktails'%}">Cocktails</a>
@@ -303,6 +319,30 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
+    <script> (function () {
+            if (!localStorage.getItem('cookieconsent')) {
+                if (window.location.pathname == '/pripol/') {
+                    document.body.innerHTML += '\
+                <div class="cookieconsent" style="position:fixed;padding:20px;left:0;bottom:0;background-color:#000;color:#FFF;text-align:center;width:100%;z-index:99999;">\
+                    Deze site gebruikt cookies. Door verder te gaan op deze website ga je akkoord met onze gebruiksvoorwaarden en privacy policy op deze pagina.\
+                    <br/><a class="yes" href="#" style="color:#CCCCCC;"><button class="btn-sm ganton btnbg btntext">Begrepen</button></a>\
+                </div>\
+                '}
+                else {
+                    document.body.innerHTML += '\
+                <div class="cookieconsent" style="position:fixed;padding:20px;left:0;bottom:0;background-color:#000;color:#FFF;text-align:center;width:100%;z-index:99999;">\
+                    Deze site gebruikt cookies. Door verder te gaan op deze website ga je akkoord met onze gebruiksvoorwaarden en privacy policy. <br/> Voor meer info zie onze <a class="pripol" href="pripol">gebruikersvoorwaarden</a>. \
+                    <br/><a class="yes" href="#" style="color:#CCCCCC;"><button class="btn-sm ganton btnbg btntext">Begrepen</button></a>\
+                </div>\
+                '};
+                document.querySelector('.yes').onclick = function (e) {
+                    e.preventDefault();
+                    document.querySelector('.cookieconsent').style.display = 'none';
+                    localStorage.setItem('cookieconsent', true);
+                };
+            }
+        })();
+    </script>
 </body>
 
 </html>

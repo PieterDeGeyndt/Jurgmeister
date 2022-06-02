@@ -224,12 +224,19 @@
               <!--Radio button 18+-->
               <hr class="my-4">
               <div id="agecheck">
-                <h4 class="mb-3">Leeftijdscontrole</h4>
+                <h4 class="mb-3">Gebruiksovereenkomst</h4>
                 <div class="col-lg-12 text-start">
                   {{form.adult}}
                   <label class="form-label">Ik ben ouder dan 18 jaar</label>
                   <div id="adult" class="invalid-feedback">
                     U moet ouder dan 18 jaar zijn om online alcohol te mogen kopen.
+                  </div>
+                </div>
+                <div class="col-lg-12 text-start">
+                  {{form.consent}}
+                  <label class="form-label">Ik ga akkoord met de <a href="{% url 'pripol'%}" target="_blank" class="pripol">gebruiksvoorwaarden</a></label>
+                  <div id="adult" class="invalid-feedback">
+                    U moet akkoord gaan met de gebruiksvoorwaarden om de aankoop te kunnen voltooien.
                   </div>
                 </div>
                 <hr class="my-4">

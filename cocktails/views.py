@@ -18,6 +18,8 @@ from mollie.api.client import Client
 from django.conf import settings
 from django.core.mail import send_mail
 
+def pripol(request):
+    return redirect("pripol")
 
 # COCKTAILS
 def allcocktails(request):

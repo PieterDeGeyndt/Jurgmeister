@@ -59,7 +59,7 @@ class CheckoutForm(forms.Form):
 
     adult = forms.BooleanField(required=True)
 
-    same_billing_address = forms.BooleanField(required=False)
+    consent = forms.BooleanField(required=True)
 
     save_info = forms.BooleanField(required=False)
 

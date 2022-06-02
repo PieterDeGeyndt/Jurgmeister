@@ -26,4 +26,9 @@ urlpatterns = [
     path('add-to-cart-summary/<int:cocktail_id>/',add_to_cart_summary, name='add-to-cart-summary'),
     path('empty-cart/<int:cocktail_id>/',empty_cart, name='empty-cart'),
     path('payment/', PaymentView.as_view(), name='payment'),
+    path('pripol/',views.pripol, name='pripol'),
+    path('order-summary/pripol/',views.pripol, name='pripol'),
+    path('checkout/pripol/',views.pripol, name='pripol'),
+    path('confirmation/pripol/',views.pripol, name='pripol'),
+    path('payment/pripol/',views.pripol, name='pripol'),
     ]
