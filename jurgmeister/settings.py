@@ -14,6 +14,7 @@ from django.core.management.utils import get_random_secret_key
 from pathlib import Path
 import os
 import sys
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,7 +29,7 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", get_random_secret_key())
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1:8080,localhost:8080").split(",")
 
 
 # Application definition
@@ -85,18 +86,26 @@ WSGI_APPLICATION = 'jurgmeister.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
+DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
 
-DATABASES = {
-    'default': {
-    'ENGINE': 'django.db.backends.postgresql',
-    'NAME': 'jurgmeisterdb',
-    'USER': 'postgres',
-    'PASSWORD':'Postgress2021',
-    'HOST':'localhost',
-    'PORT' : '5432'
+if DEVELOPMENT_MODE is True:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'HOST':'app-0fe7eaf6-5d8e-4ca5-935e-07d94ceb66dd-do-user-10876744-0.b.db.ondigitalocean.com',
+            'PORT' : '25060',
+            'NAME': 'jurgmeisterdb',
+            'USER': 'jurgmeisterdb',
+            'PASSWORD':'AVNS_UH6-d-PT9Sm3I1R',
+            'SSLMODE'  : 'require'
+        }
     }
-}
-
+elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
+    if os.getenv("DATABASE_URL", None) is None:
+        raise Exception("DATABASE_URL environment variable not defined")
+    DATABASES = {
+        "default": dj_database_url.parse(os.environ.get("DATABASE_URL")),
+    }
 
 
 # Password validation
