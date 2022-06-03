@@ -163,6 +163,7 @@ AUTHENTICATION_BACKENDS = (
 SITE_ID = 1
 
 MOLLIE_SECRET_KEY = 'test_wxgbWFHcz9z7CMw7APmHNzJpQwsF5d'
+PAYMENTREDIRECTURL = 'https://jurgmeister-app-2mpk9.ondigitalocean.app/confirmation/'
 
 try:
     from .local_settings import *

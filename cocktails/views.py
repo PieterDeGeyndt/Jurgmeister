@@ -2,7 +2,7 @@ from datetime import datetime
 from distutils.command.clean import clean
 from logging import NullHandler
 from django.shortcuts import render, get_object_or_404, redirect
-from jurgmeister.settings import MOLLIE_SECRET_KEY
+from jurgmeister.settings import MOLLIE_SECRET_KEY,PAYMENTREDIRECTURL
 from .models import Cocktails, Order, OrderItem, BillingAddress, Payment
 from django.utils import timezone
 from django.contrib import messages
@@ -288,7 +288,7 @@ class PaymentView(LoginRequiredMixin, View):
                     'value': value
                 },
                 'description': "My 1st payment with Mollie",
-                'redirectUrl': 'https://www.jurgmeister.be/cocktails/confirmation',
+                'redirectUrl': PAYMENTREDIRECTURL,
                 'webhookUrl': '',
             })
             # create the payment
