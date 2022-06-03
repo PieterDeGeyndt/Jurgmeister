@@ -14,7 +14,6 @@ from django.core.management.utils import get_random_secret_key
 from pathlib import Path
 import os
 import sys
-import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -86,10 +85,7 @@ WSGI_APPLICATION = 'jurgmeister.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
-
-if DEVELOPMENT_MODE is True:
-    DATABASES = {
+DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
             'HOST':'app-0fe7eaf6-5d8e-4ca5-935e-07d94ceb66dd-do-user-10876744-0.b.db.ondigitalocean.com',
@@ -100,13 +96,6 @@ if DEVELOPMENT_MODE is True:
             'SSLMODE'  : 'require'
         }
     }
-elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
-    if os.getenv("DATABASE_URL", None) is None:
-        raise Exception("DATABASE_URL environment variable not defined")
-    DATABASES = {
-        "default": dj_database_url.parse(os.environ.get("DATABASE_URL")),
-    }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
