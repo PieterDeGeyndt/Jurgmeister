@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 import homepage.views
 import cocktails.views
 from django.views.static import serve
-from django.conf.urls import url
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', homepage.views.home, name='home'),
@@ -24,6 +24,4 @@ urlpatterns = [
     path('info/pripol/',homepage.views.pripolinfo, name='pripolinfo'),
     path('pripol/',homepage.views.pripol, name='pripol'),
     path('accounts/profile/', cocktails.views.your_account, name='account'),
-]
-
-urlpatterns += [url(r'^media/(?P<path>.*)', serve, {'document_root': settings.MEDIA_ROOT})]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
