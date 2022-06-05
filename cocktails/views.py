@@ -319,14 +319,6 @@ class PaymentView(LoginRequiredMixin, View):
 def your_account(request):
     return redirect('/cocktails')
 
-class ConfirmationView(LoginRequiredMixin,View):    
-    def get(self,*args,**kwargs):
-        try:
-            order = Order.objects.get(user=self.request.user, ordered=True)
-            context = {
-                'order': order
-            }
-            return render(self.request, "cocktails/confirmation.html", context)
-        except ObjectDoesNotExist:
-            messages.warning(self.request, "Er liep iets fout bij de bestelling. Stuur ons een mailtje op info@jurgmeister.be en we brengen het zo snel mogelijk in orde.")
-            return redirect("cocktails/confirmation.html")
+def confirmationView(request):
+    return redirect("confirmation")
+
