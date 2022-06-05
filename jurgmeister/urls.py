@@ -4,7 +4,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 import homepage.views
 import cocktails.views
-from settings import MEDIA_URL, MEDIA_ROOT
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,4 +23,4 @@ urlpatterns = [
     path('info/pripol/',homepage.views.pripolinfo, name='pripolinfo'),
     path('pripol/',homepage.views.pripol, name='pripol'),
     path('accounts/profile/', cocktails.views.your_account, name='account'),
-] + static(MEDIA_URL, document_root=MEDIA_ROOT)
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

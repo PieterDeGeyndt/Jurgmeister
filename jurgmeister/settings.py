@@ -16,7 +16,7 @@ import os
 import sys
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
 # Quick-start development settings - unsuitable for production
@@ -26,9 +26,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", "False") == "True"
+DEBUG = True
 
-ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1:8080,localhost:8080").split(",")
+ALLOWED_HOSTS = ["127.0.0.1", "127.0.0.1:8000"]
 
 
 # Application definition
@@ -86,16 +86,16 @@ WSGI_APPLICATION = 'jurgmeister.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 DATABASES = {
-        'default': {
+    'default': 
+    {
             'ENGINE': 'django.db.backends.postgresql',
-            'HOST':'app-0fe7eaf6-5d8e-4ca5-935e-07d94ceb66dd-do-user-10876744-0.b.db.ondigitalocean.com',
-            'PORT' : '25060',
             'NAME': 'jurgmeisterdb',
-            'USER': 'jurgmeisterdb',
-            'PASSWORD':'AVNS_UH6-d-PT9Sm3I1R',
-            'SSLMODE'  : 'require'
-        }
-    }
+            'USER': 'postgres',
+            'PASSWORD':'Postgress2021',
+            'HOST':'localhost',
+            'PORT' : '5432'
+    }    
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -134,19 +134,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / 'jurgmeister/static/'
+    os.path.join(BASE_DIR,'jurgmeister/static/').replace('\\', '/')
 ]
-
-STATIC_ROOT = BASE_DIR / 'static/'
 
 # Media files
 
-MEDIA_ROOT = BASE_DIR / 'media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace('\\', '/')
 
-MEDIA_URL = 'media/'
+MEDIA_URL = '/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
