@@ -339,7 +339,7 @@ def confirmationView(request):
         if "id" not in flask.request.form:
             flask.abort(404, "Unknown payment id")
 
-        payment_id = flask.request.form["id"]
+        payment_id = payment.mollie_payment_id
         payment = mollie_client.payments.get(payment_id)
 
         #
