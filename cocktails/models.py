@@ -103,6 +103,7 @@ class Payment(models.Model):
     timestamp = models.DateTimeField()
     link = models.TextField(blank=True, null=True)
     ordered= models.ManyToManyField(OrderItem,blank=True)
+    status = models.CharField(max_length=50)
 
     def __str__(self):
         return self.user.username
