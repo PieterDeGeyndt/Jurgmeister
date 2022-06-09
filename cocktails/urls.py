@@ -11,6 +11,7 @@ from .views import (
     add_to_cart_summary,
     empty_cart,
     PaymentView,
+    paymentOk,
 )
 
 urlpatterns = [
