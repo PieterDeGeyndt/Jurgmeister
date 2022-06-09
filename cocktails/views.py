@@ -324,6 +324,7 @@ def your_account(request):
 
 class ConfirmationView(LoginRequiredMixin,View):
     def get(self,*args, **kwargs):
+        order=Order.objects.get(user=self.request.user, ordered=True)
         try:
             #
             # Initialize the Mollie API library with your API key.
@@ -337,25 +338,25 @@ class ConfirmationView(LoginRequiredMixin,View):
             #
             # Retrieve the payment's current state.
 
-            payment_id = payment.mollie_payment_id
-            payment = mollie_client.payments.get(payment_id)
+            payment_id = order.charge.mollie_payment_id
+            molliepayment = mollie_client.payments.get(payment_id)
 
             #
             # Update the order in the database.
             #
-            payment.status = {"status": payment.status}
+            molliepayment.status = {"status": molliepayment.status}
 
-            if payment.is_paid():
+            if molliepayment.is_paid():
                 #
                 # At this point you'd probably want to start the process of delivering the product to the customer.
                 #
                 return redirect("cocktails/confirmation.html")
-            elif payment.is_pending():
+            elif molliepayment.is_pending():
                 #
                 # The payment has started but is not complete yet.
                 #
                 return "Pending"
-            elif payment.is_open():
+            elif molliepayment.is_open():
                 #
                 # The payment has not started yet. Wait for it.
                 #
