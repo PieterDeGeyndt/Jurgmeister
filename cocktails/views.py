@@ -290,7 +290,7 @@ class PaymentView(LoginRequiredMixin, View):
                     'currency': 'EUR',
                     'value': value
                 },
-                'description': "{{order.orderid}} by {{order.user}} for {{order.total}}",
+                'description': order.orderid " by " order.user " for " order.total,
                 'redirectUrl': PAYMENTREDIRECTURL,
                 'webhookUrl': '',
             })
@@ -342,7 +342,7 @@ class ConfirmationView(LoginRequiredMixin,View):
             #
             # Update the order in the database.
             #
-            payment.status = {"status": molliepayment.status}
+            payment.status =molliepayment.status
 
             if molliepayment.is_paid():
                 #
