@@ -161,7 +161,8 @@ AUTHENTICATION_BACKENDS = (
 SITE_ID = 1
 
 MOLLIE_SECRET_KEY = 'test_wxgbWFHcz9z7CMw7APmHNzJpQwsF5d'
-PAYMENTREDIRECTURL = 'https://146.190.31.44/cocktails/confirmation/'
+PAYMENTREDIRECTURL = 'https://jurgmeister.test2impress.be/cocktails/end/'
+WEBHOOKURL = 'https://jurgmeister.test2impress.be/cocktails/confirmation/'
 
 try:
     from .local_settings import *

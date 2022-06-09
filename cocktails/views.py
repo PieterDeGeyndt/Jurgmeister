@@ -2,7 +2,7 @@ from datetime import datetime
 from distutils.command.clean import clean
 from logging import NullHandler
 from django.shortcuts import render, get_object_or_404, redirect
-from jurgmeister.settings import MOLLIE_SECRET_KEY, PAYMENTREDIRECTURL
+from jurgmeister.settings import MOLLIE_SECRET_KEY, PAYMENTREDIRECTURL, WEBHOOKURL
 from .models import Cocktails, Order, OrderItem, BillingAddress, Payment
 from django.utils import timezone
 from django.contrib import messages
@@ -292,7 +292,7 @@ class PaymentView(LoginRequiredMixin, View):
                 },
                 'description': order.orderid+" by "+order.user+" for "+order.total,
                 'redirectUrl': PAYMENTREDIRECTURL,
-                'webhookUrl': '',
+                'webhookUrl': WEBHOOKURL,
             })
             # create the payment
             payment = Payment()
@@ -300,6 +300,7 @@ class PaymentView(LoginRequiredMixin, View):
             payment.user = self.request.user
             payment.amount = order.total
             payment.timestamp = timezone.now()
+            payment.status=charge.status
             payment.save()
             # assign the payment to the order
             order_items=order.items.all()
@@ -322,8 +323,7 @@ def your_account(request):
     return redirect('/cocktails')
 
 class ConfirmationView(LoginRequiredMixin,View):
-    def get(self,*args, **kwargs):
-        
+    def get(self,*args, **kwargs):       
         try:
             #
             # Initialize the Mollie API library with your API key.
@@ -336,25 +336,30 @@ class ConfirmationView(LoginRequiredMixin,View):
 
             #
             # Retrieve the payment's current state.
-            payment=Payment.objects.get(user=self.request.user,status="NotPaid")
-            molliepayment = mollie_client.payments.get(payment.mollie_payment_id)
-            
+            #
+            if "id" not in flask.request.form:
+                flask.abort(404, "Unknown payment id")
+
+            payment_id = flask.request.form["id"]
+            payment = mollie_client.payments.get(payment_id)
+
             #
             # Update the order in the database.
             #
-            payment.status =molliepayment.status
-
-            if molliepayment.is_paid():
+            paymentdb = Payment.objects.get(user=self.request.user, mollie_payment_id=payment_id)
+            paymentdb.status = payment.status
+            
+            if payment.is_paid():
                 #
                 # At this point you'd probably want to start the process of delivering the product to the customer.
                 #
-                return redirect("succes")
-            elif molliepayment.is_pending():
+                return redirect('cocktails/confirmation.html')
+            elif payment.is_pending():
                 #
                 # The payment has started but is not complete yet.
                 #
                 return "Pending"
-            elif molliepayment.is_open():
+            elif payment.is_open():
                 #
                 # The payment has not started yet. Wait for it.
                 #
@@ -367,6 +372,3 @@ class ConfirmationView(LoginRequiredMixin,View):
 
         except Error as err:
             return f"API call failed: {err}"
-
-def succes(request):
-    return render(request,'cocktails/confirmation.html')

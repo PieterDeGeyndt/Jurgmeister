@@ -64,6 +64,7 @@ class Order(models.Model):
     billing_address=models.ForeignKey('BillingAddress',on_delete=models.SET_NULL, blank=True, null=True)
     charge=models.ForeignKey('Payment',on_delete=models.SET_NULL, blank=True, null=True)
     total = models.FloatField(default=0.00)
+    paid=models.BooleanField(default=False)
 
     def __str__(self):
         template='ID: {0.orderid} - Ordered by: {0.user.username} - Totaal: €{0.total}'
