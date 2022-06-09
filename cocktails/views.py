@@ -348,7 +348,7 @@ class ConfirmationView(LoginRequiredMixin,View):
                 #
                 # At this point you'd probably want to start the process of delivering the product to the customer.
                 #
-                return redirect("cocktails/confirmation.html")
+                return redirect("confirmation.html")
             elif molliepayment.is_pending():
                 #
                 # The payment has started but is not complete yet.
