@@ -31,4 +31,5 @@ urlpatterns = [
     path('checkout/pripol/',views.pripol, name='pripol'),
     path('confirmation/pripol/',views.pripol, name='pripol'),
     path('payment/pripol/',views.pripol, name='pripol'),
+    path('confirmation/paid',views.paymentOk, name='paymentOk')
     ]
