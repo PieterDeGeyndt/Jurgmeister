@@ -342,7 +342,7 @@ class ConfirmationView(LoginRequiredMixin,View):
             #
             # Update the order in the database.
             #
-            molliepayment.status = {"status": molliepayment.status}
+            payment.status = {"status": molliepayment.status}
 
             if molliepayment.is_paid():
                 #
