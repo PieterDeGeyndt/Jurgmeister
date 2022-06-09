@@ -161,7 +161,7 @@ AUTHENTICATION_BACKENDS = (
 SITE_ID = 1
 
 MOLLIE_SECRET_KEY = 'test_wxgbWFHcz9z7CMw7APmHNzJpQwsF5d'
-PAYMENTREDIRECTURL = 'http://146.190.31.44/cocktails/confirmation/'
+PAYMENTREDIRECTURL = 'https://146.190.31.44/cocktails/confirmation/'
 
 try:
     from .local_settings import *

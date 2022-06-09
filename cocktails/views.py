@@ -290,7 +290,7 @@ class PaymentView(LoginRequiredMixin, View):
                     'currency': 'EUR',
                     'value': value
                 },
-                'description': "My 1st payment with Mollie",
+                'description': "{{order.orderid}} by {{order.user}} for {{order.total}}",
                 'redirectUrl': PAYMENTREDIRECTURL,
                 'webhookUrl': '',
             })
