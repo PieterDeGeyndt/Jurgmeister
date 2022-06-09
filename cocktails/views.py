@@ -282,6 +282,8 @@ class PaymentView(LoginRequiredMixin, View):
         try:
             order = Order.objects.get(user=self.request.user, ordered=False)
             value = str(order.total) + '0'
+            orderid = str(order.orderid)
+            orderuser=str(order.user)
             # Define new payment
             mollie_client = Client()
             mollie_client.set_api_key(MOLLIE_SECRET_KEY)
@@ -290,7 +292,7 @@ class PaymentView(LoginRequiredMixin, View):
                     'currency': 'EUR',
                     'value': value,
                 },
-                'description': order.orderid+" by "+order.user+" for "+order.total,
+                'description': orderid+" by "+orderuser+" for "+value+"EUR",
                 'redirectUrl': PAYMENTREDIRECTURL,
                 'webhookUrl': WEBHOOKURL,
             })
