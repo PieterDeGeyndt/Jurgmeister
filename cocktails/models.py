@@ -95,7 +95,8 @@ class BillingAddress(models.Model):
     consent=models.BooleanField(default=False)
 
     def __str__(self):
-        return self.user.username
+        template='Ordered by: {0.first_name} {0.last_name} - e-mail: {0.email} - phone: {0.phone} - adres: {0.street_address}'
+        return template.format(self)
 
 class Payment(models.Model):
     mollie_payment_id = models.CharField(max_length=50)
@@ -105,7 +106,7 @@ class Payment(models.Model):
     link = models.TextField(blank=True, null=True)
     ordered= models.ManyToManyField(OrderItem,blank=True)
     status = models.CharField(max_length=50, default="NotPaid")
-    address=models.ManyToManyField(BillingAddress,blank=True)
+    address=models.TextField(blank=True)
 
     def __str__(self):
         return self.user.username

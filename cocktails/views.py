@@ -303,6 +303,7 @@ class PaymentView(LoginRequiredMixin, View):
             payment.amount = order.total
             payment.timestamp = timezone.now()
             payment.status=charge.status
+            payment.address = order.billing_address
             payment.save()
             # assign the payment to the order
             order_items=order.items.all()
