@@ -288,9 +288,9 @@ class PaymentView(LoginRequiredMixin, View):
             charge = mollie_client.payments.create({
                 'amount': {
                     'currency': 'EUR',
-                    'value': value
+                    'value': value,
                 },
-                'description': order.orderid " by " order.user " for " order.total,
+                'description': order.orderid+" by "+order.user+" for "+order.total,
                 'redirectUrl': PAYMENTREDIRECTURL,
                 'webhookUrl': '',
             })
