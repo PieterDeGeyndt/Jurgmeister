@@ -322,49 +322,50 @@ class PaymentView(LoginRequiredMixin, View):
 def your_account(request):
     return redirect('/cocktails')
 
-def confirmationView(request):
-    try:
-        #
-        # Initialize the Mollie API library with your API key.
-        #
-        # See: https://www.mollie.com/dashboard/settings/profiles
-        #
-        api_key = MOLLIE_SECRET_KEY
-        mollie_client = Client()
-        mollie_client.set_api_key(api_key)
+class ConfirmationView(LoginRequiredMixin,View):
+    def get(self):
+        try:
+            #
+            # Initialize the Mollie API library with your API key.
+            #
+            # See: https://www.mollie.com/dashboard/settings/profiles
+            #
+            api_key = MOLLIE_SECRET_KEY
+            mollie_client = Client()
+            mollie_client.set_api_key(api_key)
 
-        #
-        # Retrieve the payment's current state.
+            #
+            # Retrieve the payment's current state.
 
-        payment_id = payment.mollie_payment_id
-        payment = mollie_client.payments.get(payment_id)
+            payment_id = payment.mollie_payment_id
+            payment = mollie_client.payments.get(payment_id)
 
-        #
-        # Update the order in the database.
-        #
-        payment.status = {"status": payment.status}
+            #
+            # Update the order in the database.
+            #
+            payment.status = {"status": payment.status}
 
-        if payment.is_paid():
-            #
-            # At this point you'd probably want to start the process of delivering the product to the customer.
-            #
-            return redirect("cocktails/confirmation.html")
-        elif payment.is_pending():
-            #
-            # The payment has started but is not complete yet.
-            #
-            return "Pending"
-        elif payment.is_open():
-            #
-            # The payment has not started yet. Wait for it.
-            #
-            return "Open"
-        else:
-            #
-            # The payment isn't paid, pending nor open. We can assume it was aborted.
-            #
-            return "Cancelled"
+            if payment.is_paid():
+                #
+                # At this point you'd probably want to start the process of delivering the product to the customer.
+                #
+                return redirect("cocktails/confirmation.html")
+            elif payment.is_pending():
+                #
+                # The payment has started but is not complete yet.
+                #
+                return "Pending"
+            elif payment.is_open():
+                #
+                # The payment has not started yet. Wait for it.
+                #
+                return "Open"
+            else:
+                #
+                # The payment isn't paid, pending nor open. We can assume it was aborted.
+                #
+                return "Cancelled"
 
-    except Error as err:
-        return f"API call failed: {err}"
+        except Error as err:
+            return f"API call failed: {err}"
 

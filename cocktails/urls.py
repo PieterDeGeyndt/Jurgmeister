@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 from .views import (
+    ConfirmationView,
     add_to_cart,
     remove_from_cart,
     OrderSummaryView,
@@ -20,7 +21,7 @@ urlpatterns = [
     path('youraccount/', your_account, name='youraccount'),
     path('order-summary/', OrderSummaryView.as_view(), name='order-summary'),
     path('checkout/', CheckoutView.as_view(), name='checkout'),
-    path('confirmation/',views.confirmationView, name='confirmation'),
+    path('confirmation/',ConfirmationView.as_view(), name='confirmation'),
     path('remove-from-cart-summary/<int:cocktail_id>/', remove_from_cart_summary, name='remove-from-cart-summary'),
     path('add-to-cart-summary/<int:cocktail_id>/',add_to_cart_summary, name='add-to-cart-summary'),
     path('empty-cart/<int:cocktail_id>/',empty_cart, name='empty-cart'),
