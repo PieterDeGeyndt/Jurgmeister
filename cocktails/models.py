@@ -105,6 +105,7 @@ class Payment(models.Model):
     link = models.TextField(blank=True, null=True)
     ordered= models.ManyToManyField(OrderItem,blank=True)
     status = models.CharField(max_length=50, default="NotPaid")
+    address=models.ManyToManyField(BillingAddress,blank=True)
 
     def __str__(self):
         return self.user.username
