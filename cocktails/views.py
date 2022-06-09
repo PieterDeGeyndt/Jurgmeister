@@ -311,7 +311,6 @@ class PaymentView(LoginRequiredMixin, View):
             order.ordered = True
             order.ordered_date = payment.timestamp
             order.save()
-            messages.success(self.request, "Je order was succesvol!")
             return redirect(charge.checkout_url)
 
         except ObjectDoesNotExist:
@@ -324,7 +323,7 @@ def your_account(request):
 
 class ConfirmationView(LoginRequiredMixin,View):
     def get(self,*args, **kwargs):
-        order=Order.objects.get(user=self.request.user, ordered=True)
+        
         try:
             #
             # Initialize the Mollie API library with your API key.
@@ -337,10 +336,9 @@ class ConfirmationView(LoginRequiredMixin,View):
 
             #
             # Retrieve the payment's current state.
-
-            payment_id = order.charge.mollie_payment_id
-            molliepayment = mollie_client.payments.get(payment_id)
-
+            payment=Payment.objects.get(user=self.request.user,status="NotPaid")
+            molliepayment = mollie_client.payments.get(payment.mollie_payment_id)
+            
             #
             # Update the order in the database.
             #
