@@ -323,7 +323,7 @@ def your_account(request):
     return redirect('/cocktails')
 
 class ConfirmationView(LoginRequiredMixin,View):
-    def get(self):
+    def get(self,*args, **kwargs):
         try:
             #
             # Initialize the Mollie API library with your API key.
