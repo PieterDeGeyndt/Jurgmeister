@@ -348,7 +348,7 @@ class ConfirmationView(LoginRequiredMixin,View):
                 #
                 # At this point you'd probably want to start the process of delivering the product to the customer.
                 #
-                return redirect('paymentOk')
+                return render(self.request,"cocktails/confirmation.html")
             elif molliepayment.is_pending():
                 #
                 # The payment has started but is not complete yet.
@@ -367,7 +367,4 @@ class ConfirmationView(LoginRequiredMixin,View):
 
         except Error as err:
             return f"API call failed: {err}"
-
-def paymentOk(request):
-    return render(request, '//cocktails/confirmation.html')
 
