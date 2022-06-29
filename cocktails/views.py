@@ -43,7 +43,7 @@ def add_to_cart(request, cocktail_id):
         ordered=False,
     )
     #get all unordered orders of that user
-    order_qs = Order.objects.filter(user=request.user, ordered=False)
+    order_qs = Order.objects.get_or_create(user=request.user, ordered=False)
     if order_qs.exists():
         #if it exists take top order
         order = order_qs[0]
