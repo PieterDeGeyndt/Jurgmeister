@@ -1,6 +1,7 @@
 from datetime import datetime
 from distutils.command.clean import clean
 from logging import NullHandler
+from urllib import request
 from django.shortcuts import render, get_object_or_404, redirect
 from jurgmeister.settings import MOLLIE_SECRET_KEY, PAYMENTREDIRECTURL, WEBHOOKURL
 from .models import Cocktails, Order, OrderItem, BillingAddress, Payment
@@ -354,20 +355,23 @@ class ConfirmationView(LoginRequiredMixin,View):
             
             if payment.is_paid():
                 #
+                paymentdb.status = "Paid"
                 # At this point you'd probably want to start the process of delivering the product to the customer.
                 #
                 return "Paid"
             elif payment.is_pending():
+                paymentdb.status = "Pending"
                 #
                 # The payment has started but is not complete yet.
                 #
                 return "Pending"
             elif payment.is_open():
-                #
+                paymentdb.status = "Open"
                 # The payment has not started yet. Wait for it.
                 #
                 return "Open"
             else:
+                payment.db="Cancelled"
                 #
                 # The payment isn't paid, pending nor open. We can assume it was aborted.
                 #
