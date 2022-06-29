@@ -17,7 +17,7 @@ from mollie.api.client import Client
 from django.conf import settings
 from django.core.mail import send_mail
 import os
-import flask
+from flask import flask
 from mollie.api.error import Error
 
 def pripol(request):
@@ -36,7 +36,7 @@ def detail(request, cocktail_id):
 @login_required(login_url="/accounts/login")
 def add_to_cart(request, cocktail_id):
     item = get_object_or_404(Cocktails, pk=cocktail_id)
-    #get all unordered items for that users from OrderItem db
+    #get all unordered items for that user from OrderItem db
     order_item, created = OrderItem.objects.get_or_create(
         item=item,
         user=request.user,
@@ -64,7 +64,7 @@ def add_to_cart(request, cocktail_id):
         ordered_date = timezone.now()
         order = Order.objects.create(
             user=request.user, start_date=ordered_date)
-        order.items.add(order_item)
+        order.items.add(item)
         messages.success(request, "1 " + item.title + " werd aan je wagentje toegevoegd.")
         return redirect("allcocktails")
 
