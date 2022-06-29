@@ -378,24 +378,5 @@ class ConfirmationView(LoginRequiredMixin,View):
         except Error as err:
             return f"API call failed: {err}"
 
-class EndView(LoginRequiredMixin,View):
-    def get(self,*args, **kwargs):   
-        try:
-            #
-            # Initialize the Mollie API library with your API key.
-            #
-            # See: https://www.mollie.com/dashboard/settings/profiles
-            #
-            api_key = MOLLIE_SECRET_KEY
-            mollie_client = Client()
-            mollie_client.set_api_key(api_key)    
-            if "id" not in flask.request.form:
-                flask.abort(404, "Unknown payment id")
-
-            payment_id = flask.request.form["id"]
-            payment = mollie_client.payments.get(payment_id)
-            paymentdb = Payment.objects.get(user=self.request.user, mollie_payment_id=payment_id)
-            return render(request, 'cocktails/confirmation.html', {'payment': paymentdb})
-
-        except Error as err:
-            return f"API call failed: {err}"
+def end(request):  
+    return render('cocktails/confirmation.html')
