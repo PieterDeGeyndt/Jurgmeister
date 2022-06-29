@@ -11,7 +11,7 @@ from .views import (
     add_to_cart_summary,
     empty_cart,
     PaymentView,
-    EndView
+    EndView,
 )
 
 urlpatterns = [
@@ -32,5 +32,5 @@ urlpatterns = [
     path('checkout/pripol/',views.pripol, name='pripol'),
     path('confirmation/pripol/',views.pripol, name='pripol'),
     path('payment/pripol/',views.pripol, name='pripol'),
-    path('/end', EndView.as_view(),name='end')
+    path('end/', EndView.as_view(),name='end')
     ]
