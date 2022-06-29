@@ -40,7 +40,7 @@ def add_to_cart(request, cocktail_id):
     order_item, created = OrderItem.objects.get_or_create(
         item=item,
         user=request.user,
-        ordered = False,
+        ordered=False,
     )
     #get all unordered orders of that user
     order_qs = Order.objects.filter(user=request.user, ordered=False)
