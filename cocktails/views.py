@@ -64,7 +64,6 @@ def add_to_cart(request, cocktail_id):
         ordered_date = timezone.now()
         order = Order.objects.create(
             user=request.user, start_date=ordered_date)
-        order.items.delete(all)
         order.items.add(item)
         messages.success(request, "1 " + item.title + " werd aan je wagentje toegevoegd.")
         return redirect("allcocktails")
