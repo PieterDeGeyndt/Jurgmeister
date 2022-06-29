@@ -5,6 +5,7 @@ from .views import (
     add_to_cart,
     remove_from_cart,
     OrderSummaryView,
+    your_account,
     CheckoutView,
     remove_from_cart_summary,
     add_to_cart_summary,

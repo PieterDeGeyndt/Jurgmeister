@@ -323,7 +323,8 @@ class PaymentView(LoginRequiredMixin, View):
             return redirect("order-summary")
         #excepts toevoegen voor mollie errors + back in browser
 
-
+def your_account(request):
+    return redirect('/cocktails')
 
 class ConfirmationView(LoginRequiredMixin,View):
     def get(self,*args, **kwargs):       
