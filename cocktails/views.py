@@ -379,4 +379,4 @@ class ConfirmationView(LoginRequiredMixin,View):
             return f"API call failed: {err}"
 
 def end(request):  
-    return render('cocktails/confirmation.html')
+    return render(request,'cocktails/confirmation.html')
