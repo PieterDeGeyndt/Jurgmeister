@@ -351,7 +351,6 @@ class ConfirmationView(LoginRequiredMixin,View):
             # Update the order in the database.
             #
             paymentdb = Payment.objects.get(user=self.request.user, mollie_payment_id=payment_id)
-            paymentdb.status = payment.status
             
             if payment.is_paid():
                 #
