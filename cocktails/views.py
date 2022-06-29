@@ -330,7 +330,7 @@ def your_account(request):
 def end(request):
     return render(request,'cocktails/confirmation.html')
 
-def confirmation():  
+def confirmation(request):  
         try:
             #
             # Initialize the Mollie API library with your API key.
@@ -352,12 +352,11 @@ def confirmation():
             #
             # Update the order in the database.
             data = {"status": payment.status}
-            paymentdb = Payment.objects.get(user=self.request.user, mollie_payment_id=payment_id)
+            paymentdb = Payment.objects.get(mollie_payment_id=payment_id)
             paymentdb.status=data
 
             if payment.is_paid():
                 #
-                paymentdb.status = "Paid"
                 # At this point you'd probably want to start the process of delivering the product to the customer.
                 #
                 return "Paid"
