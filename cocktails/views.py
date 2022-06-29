@@ -326,8 +326,11 @@ class PaymentView(LoginRequiredMixin, View):
 def your_account(request):
     return redirect('/cocktails')
 
-class ConfirmationView(LoginRequiredMixin,View):
-    def get(self,*args, **kwargs):       
+
+def end(request):
+    return render(request,'cocktails/confirmation.html')
+
+def confirmation():  
         try:
             #
             # Initialize the Mollie API library with your API key.
@@ -351,7 +354,7 @@ class ConfirmationView(LoginRequiredMixin,View):
             #
             paymentdb = Payment.objects.get(user=self.request.user, mollie_payment_id=payment_id)
             
-            if payment.status == "Paid":
+            if payment.status.is_paid():
                 #
                 paymentdb.status = "Paid"
                 # At this point you'd probably want to start the process of delivering the product to the customer.
@@ -377,6 +380,3 @@ class ConfirmationView(LoginRequiredMixin,View):
 
         except Error as err:
             return f"API call failed: {err}"
-
-def end(request):  
-    return render(request,'cocktails/confirmation.html')
