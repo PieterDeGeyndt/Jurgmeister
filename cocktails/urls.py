@@ -32,5 +32,5 @@ urlpatterns = [
     path('confirmation/pripol/',views.pripol, name='pripol'),
     path('payment/pripol/',views.pripol, name='pripol'),
     path('end/',EndView.as_view(),name='end'),
-    path('accounts/profile', your_account, name='youraccount'),
+    path('youraccount/', your_account, name='youraccount'),
     ]

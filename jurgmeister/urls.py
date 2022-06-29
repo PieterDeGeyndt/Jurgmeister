@@ -22,4 +22,5 @@ urlpatterns = [
     path('info/',homepage.views.info, name='info'),
     path('info/pripol/',homepage.views.pripolinfo, name='pripolinfo'),
     path('pripol/',homepage.views.pripol, name='pripol'),
+    path('accounts/profile/', cocktails.views.your_account, name='account'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
