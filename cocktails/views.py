@@ -350,7 +350,7 @@ class ConfirmationView(LoginRequiredMixin,View):
             #
             paymentdb = Payment.objects.get(user=self.request.user, mollie_payment_id=payment_id)
             
-            if payment.is_paid():
+            if payment.status == "Paid":
                 #
                 paymentdb.status = "Paid"
                 # At this point you'd probably want to start the process of delivering the product to the customer.
