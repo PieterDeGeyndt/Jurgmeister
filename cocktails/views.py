@@ -330,7 +330,7 @@ def your_account(request):
 def end(request):
     return render(request,'cocktails/confirmation.html')
 
-def confirmation(request):  
+def confirmation():  
         try:
             #
             # Initialize the Mollie API library with your API key.
