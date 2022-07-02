@@ -338,9 +338,8 @@ def confirmation():
             #
             # See: https://www.mollie.com/dashboard/settings/profiles
             #
-            api_key = MOLLIE_SECRET_KEY
             mollie_client = Client()
-            mollie_client.set_api_key(api_key)
+            mollie_client.set_api_key(MOLLIE_SECRET_KEY)
 
             #
             # Retrieve the payment's current state.
