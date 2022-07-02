@@ -20,7 +20,18 @@ class OrderItemAdmin(admin.ModelAdmin):
     list_display = ['item','quantity','ordered','user','ordered_timestamp']
     
 class PaymentAdmin(admin.ModelAdmin):
-    list_display = ['user','timestamp']    
+    list_display = ['user','timestamp']
+
+    def get_object(self, request, object_id, s):
+        # Hook obj for use in formfield_for_manytomany
+        self.obj = super(PaymentAdmin, self).get_object(request, object_id)
+        # print ("Got object:", self.obj)
+        return self.obj
+
+    def formfield_for_manytomany(self, db_field, request, **kwargs):
+        if db_field.name == "paiditems":
+            kwargs["queryset"] = OrderItem.objects.filter(order=self.obj)
+        return super().formfield_for_manytomany(db_field, request, **kwargs)    
 
 admin.site.register(Cocktails)
 admin.site.register(OrderItem, OrderItemAdmin)
