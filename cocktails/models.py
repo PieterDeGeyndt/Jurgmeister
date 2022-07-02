@@ -100,6 +100,7 @@ class BillingAddress(models.Model):
 
 class Payment(models.Model):
     mollie_payment_id = models.CharField(max_length=50)
+    order_id=models.CharField(max_length=250, blank=True, null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True)
     amount = models.FloatField()
     timestamp = models.DateTimeField()

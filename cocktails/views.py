@@ -299,6 +299,7 @@ class PaymentView(LoginRequiredMixin, View):
             # create the payment
             payment = Payment()
             payment.mollie_payment_id = charge.id
+            payment.order_id=order.orderid
             payment.user = self.request.user
             payment.amount = order.total
             payment.timestamp = timezone.now()
@@ -352,9 +353,10 @@ def confirmation(request):
             # Update the order in the database.
             data = {"status": payment.status}
             paymentdb = Payment.objects.get(mollie_payment_id=payment_id)
-            paymentdb.status=data
+            paymentdb.status=payment.status
 
             if payment.is_paid():
+                order = Order.objects.get()
                 #
                 # At this point you'd probably want to start the process of delivering the product to the customer.
                 #
