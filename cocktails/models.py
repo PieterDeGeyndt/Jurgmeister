@@ -59,12 +59,15 @@ class Order(models.Model):
     start_date=models.DateTimeField()
     ordered_date = models.DateTimeField(default=datetime.now())
     ordered=models.BooleanField(default=False)
-    items = models.ManyToManyField(OrderItem, default="")
+    items = models.ManyToManyField(OrderItem)
     delivery_method = models.CharField(max_length=1, null=True,blank=True)
     billing_address=models.ForeignKey('BillingAddress',on_delete=models.SET_NULL, blank=True, null=True)
     charge=models.ForeignKey('Payment',on_delete=models.SET_NULL, blank=True, null=True)
     total = models.FloatField(default=0.00)
     paid=models.BooleanField(default=False)
+
+    def __init__(self, *args, **kwargs):
+        self.fields['items'].queryset=OrderItem.objects.filter(user=self.user)
 
     def __str__(self):
         template='ID: {0.orderid} - Ordered by: {0.user.username} - Totaal: €{0.total}'
