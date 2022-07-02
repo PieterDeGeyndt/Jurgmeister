@@ -36,14 +36,13 @@ def detail(request, cocktail_id):
 @login_required(login_url="/accounts/login")
 def add_to_cart(request, cocktail_id):
     item = get_object_or_404(Cocktails, pk=cocktail_id)
-    #get all unordered items for that user from OrderItem db
     order_item, created = OrderItem.objects.get_or_create(
         item=item,
         user=request.user,
-        ordered=False,
+        ordered=False
     )
     #get all unordered orders of that user
-    order_qs = Order.objects.get_or_create(user=request.user, ordered=False)
+    order_qs = Order.objects.filter(user=request.user, ordered=False)
     if order_qs.exists():
         #if it exists take top order
         order = order_qs[0]
@@ -64,6 +63,7 @@ def add_to_cart(request, cocktail_id):
         ordered_date = timezone.now()
         order = Order.objects.create(
             user=request.user, start_date=ordered_date)
+        order.items.clear()
         order.items.add(order_item)
         messages.success(request, "1 " + item.title + " werd aan je wagentje toegevoegd.")
         return redirect("allcocktails")

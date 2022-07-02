@@ -59,7 +59,7 @@ class Order(models.Model):
     start_date=models.DateTimeField()
     ordered_date = models.DateTimeField(default=datetime.now())
     ordered=models.BooleanField(default=False)
-    items = models.ManyToManyField(OrderItem)
+    items = models.ManyToManyField(OrderItem, default="")
     delivery_method = models.CharField(max_length=1, null=True,blank=True)
     billing_address=models.ForeignKey('BillingAddress',on_delete=models.SET_NULL, blank=True, null=True)
     charge=models.ForeignKey('Payment',on_delete=models.SET_NULL, blank=True, null=True)
