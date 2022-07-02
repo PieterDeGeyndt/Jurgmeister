@@ -351,12 +351,11 @@ def confirmation(request):
             payment = mollie_client.payments.get(payment_id)
             #
             # Update the order in the database.
-            data = {"status": payment.status}
-            paymentdb = Payment.objects.get(mollie_payment_id=payment_id)
+            paymentdb = Payment.objects.get(payment_id)
             paymentdb.status=payment.status
+            payment.save()
 
             if payment.is_paid():
-                order = Order.objects.get()
                 #
                 # At this point you'd probably want to start the process of delivering the product to the customer.
                 #

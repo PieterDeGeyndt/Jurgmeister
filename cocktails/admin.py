@@ -20,7 +20,7 @@ class OrderItemAdmin(admin.ModelAdmin):
     list_display = ['item','quantity','ordered','user','ordered_timestamp']
     
 class PaymentAdmin(admin.ModelAdmin):
-    list_display = ['user','order_id', 'status','timestamp']
+    list_display = ['user','order_id', 'mollie_payment_id','status','timestamp']
 
 admin.site.register(Cocktails)
 admin.site.register(OrderItem, OrderItemAdmin)
