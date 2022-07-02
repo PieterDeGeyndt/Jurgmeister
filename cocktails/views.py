@@ -351,7 +351,7 @@ def confirmation(request):
             payment = mollie_client.payments.get(payment_id)
             #
             # Update the order in the database.
-            paymentdb = Payment.objects.get(payment_id)
+            paymentdb = Payment.objects.get(mollie_payment_id = payment_id)
             paymentdb.status=payment.status
             payment.save()
 
