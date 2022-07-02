@@ -4,9 +4,15 @@ from .models import BillingAddress, Cocktails, OrderItem, Order, Payment
 
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['user','ordered','start_date','delivery_method']
+    
+    def get_object(self, request, object_id, s):
+        # Hook obj for use in formfield_for_manytomany
+        self.obj = super(OrderAdmin, self).get_object(request, object_id)
+        # print ("Got object:", self.obj)
+        return self.obj
 
     def formfield_for_manytomany(self, db_field, request, **kwargs):
-        if db_field.name == "items":
+        if db_field.name == "item":
             kwargs["queryset"] = OrderItem.objects.filter(order=self.obj)
         return super().formfield_for_manytomany(db_field, request, **kwargs)
 
