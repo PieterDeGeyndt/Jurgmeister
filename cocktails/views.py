@@ -19,6 +19,7 @@ from django.conf import settings
 from django.core.mail import send_mail
 import os
 import flask
+from django.views.decorators.csrf import csrf_exempt
 
 
 def pripol(request):
@@ -331,6 +332,7 @@ def your_account(request):
 def end(request):
     return render(request,'cocktails/confirmation.html')
 
+@csrf_exempt
 def confirmation():  
         try:
             #
