@@ -332,8 +332,7 @@ def your_account(request):
 def end(request):
     return render(request,'cocktails/confirmation.html')
 
-@csrf_exempt
-def confirmation():  
+def confirmation(request):  
         try:
             #
             # Initialize the Mollie API library with your API key.
@@ -346,10 +345,7 @@ def confirmation():
             #
             # Retrieve the payment's current state.
             #
-            if "id" not in flask.request.form:
-                flask.abort(404, "Unknown payment id")
-
-            payment_id = flask.request.form["id"]
+            payment_id = request.POST['id']
             payment = mollie_client.payments.get(payment_id)
             #
             # Update the order in the database.
