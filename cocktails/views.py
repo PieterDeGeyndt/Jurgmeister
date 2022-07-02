@@ -333,48 +333,6 @@ def end(request):
     return render(request,'cocktails/confirmation.html')
 
 def confirmation(request):  
-        try:
-            #
-            # Initialize the Mollie API library with your API key.
-            #
-            # See: https://www.mollie.com/dashboard/settings/profiles
-            #
-            mollie_client = Client()
-            mollie_client.set_api_key(MOLLIE_SECRET_KEY)
-
-            #
-            # Retrieve the payment's current state.
-            #
-            payment_id = request.POST['id']
-            payment = mollie_client.payments.get(payment_id)
-            #
-            # Update the order in the database.
-            paymentdb = Payment.objects.get(mollie_payment_id = payment_id)
-            paymentdb.status=payment.status
-            paymentdb.save()
-
-            if payment.is_paid():
-                #
-                # At this point you'd probably want to start the process of delivering the product to the customer.
-                #
-                return "Paid"
-            elif payment.is_pending():
-                paymentdb.status = "Pending"
-                #
-                # The payment has started but is not complete yet.
-                #
-                return "Pending"
-            elif payment.is_open():
-                paymentdb.status = "Open"
-                # The payment has not started yet. Wait for it.
-                #
-                return "Open"
-            else:
-                payment.db="Cancelled"
-                #
-                # The payment isn't paid, pending nor open. We can assume it was aborted.
-                #
-                return "Cancelled"
-
-        except Error as err:
-            return f"API call failed: {err}"
+    id = request.POST['id']
+    print(id)
+    return "Success!"
