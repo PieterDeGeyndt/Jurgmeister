@@ -14,11 +14,12 @@ from django.views import View
 from django.core.exceptions import ObjectDoesNotExist
 from .forms import CheckoutForm
 from mollie.api.client import Client
+from mollie.api.error import Error
 from django.conf import settings
 from django.core.mail import send_mail
 import os
 import flask
-from mollie.api.error import Error
+
 
 def pripol(request):
     return redirect("pripol")
