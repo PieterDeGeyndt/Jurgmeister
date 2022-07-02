@@ -66,9 +66,6 @@ class Order(models.Model):
     total = models.FloatField(default=0.00)
     paid=models.BooleanField(default=False)
 
-    def __init__(self, *args, **kwargs):
-        self.fields['items'].queryset=OrderItem.objects.filter(user=self.user)
-
     def __str__(self):
         template='ID: {0.orderid} - Ordered by: {0.user.username} - Totaal: €{0.total}'
         return template.format(self)

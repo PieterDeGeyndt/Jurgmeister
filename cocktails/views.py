@@ -32,7 +32,6 @@ def detail(request, cocktail_id):
     detailcocktail = get_object_or_404(Cocktails, pk=cocktail_id)
     return render(request, 'cocktails/detail.html', {'cocktail': detailcocktail})
 
-
 @login_required(login_url="/accounts/login")
 def add_to_cart(request, cocktail_id):
     item = get_object_or_404(Cocktails, pk=cocktail_id)
