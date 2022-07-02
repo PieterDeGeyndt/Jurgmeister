@@ -62,7 +62,7 @@ class Order(models.Model):
     items = models.ManyToManyField(OrderItem)
     delivery_method = models.CharField(max_length=1, null=True,blank=True)
     billing_address=models.ForeignKey('BillingAddress',on_delete=models.SET_NULL, blank=True, null=True)
-    charge=models.CharField(max_length= 25,blank=True, null=True)
+    mollie_id=models.CharField(max_length= 25,blank=True, null=True)
     total = models.FloatField(default=0.00)
     paid=models.BooleanField(default=False)
 
