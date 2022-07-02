@@ -311,7 +311,7 @@ class PaymentView(LoginRequiredMixin, View):
             order_items.update(ordered_timestamp = payment.timestamp)
             for item in order_items:
                 item.save()
-            order.charge = payment
+            order.charge = charge.id
             order.ordered = True
             order.ordered_date = payment.timestamp
             order.save()
