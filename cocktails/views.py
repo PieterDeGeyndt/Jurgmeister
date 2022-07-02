@@ -353,7 +353,7 @@ def confirmation():
             # Update the order in the database.
             paymentdb = Payment.objects.get(mollie_payment_id = payment_id)
             paymentdb.status=payment.status
-            payment.save()
+            paymentdb.save()
 
             if payment.is_paid():
                 #
