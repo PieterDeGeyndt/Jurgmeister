@@ -104,7 +104,6 @@ class Payment(models.Model):
     amount = models.FloatField()
     timestamp = models.DateTimeField()
     link = models.TextField(blank=True, null=True)
-    paiditems= models.ManyToManyField(OrderItem,blank=True)
     status = models.CharField(max_length=50, default="NotPaid")
     address=models.TextField(blank=True)
 
